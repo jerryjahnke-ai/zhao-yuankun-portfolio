@@ -325,7 +325,7 @@ function HomePage() {
               让品牌被理解。
             </h1>
             <p className="mt-8 max-w-2xl text-lg leading-8 text-muted sm:text-xl">
-              我是赵元坤，专注品牌公关、舆情管理与内容策划。以新闻采编、影像创作和公共沟通，为企业建立有温度、有事实支撑的表达。
+              专注品牌公关、舆情管理与内容策划。为企业和组织品牌建立有温度、有事实支撑的表达。
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <ButtonLink to="/work">浏览代表作品</ButtonLink>
