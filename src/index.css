@@ -28,15 +28,15 @@
   --font-sans: "Source Han Sans CN", "Noto Sans SC", "PingFang SC", sans-serif;
   --font-display: "Source Han Serif CN", "Noto Serif SC", "Songti SC", serif;
   --font-en: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
-  --color-navy: #071b35;
-  --color-navy-soft: #102c4c;
-  --color-cream: #f7f4ed;
-  --color-paper: #0c2442;
-  --color-muted: #a9b7c8;
-  --color-accent: #d7e1ea;
-  --color-sky: #e7eff2;
-  --color-blush: #f3ebe8;
-  --color-mint: #e8f0eb;
+  --color-navy: #000000;
+  --color-navy-soft: #101010;
+  --color-cream: #f7f5f0;
+  --color-paper: #080808;
+  --color-muted: #aba7a0;
+  --color-accent: #e7e2d9;
+  --color-sky: #eceff0;
+  --color-blush: #f2ece8;
+  --color-mint: #ebefeb;
 }
 
 :root {
