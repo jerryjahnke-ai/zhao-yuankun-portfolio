@@ -20,7 +20,7 @@ const featuredWork = [
   {
     number: "02",
     label: "原始大陆",
-    title: "公众号高阅读文章专栏",
+    title: "公众号精选文章专栏",
     copy: "以文章为作品，呈现关于传播、技术与生活的长期观察。",
   },
   {
@@ -32,14 +32,54 @@ const featuredWork = [
 ];
 
 const practiceMetrics = [
-  { value: "近 200", label: "篇媒体与品牌稿件" },
-  { value: "80+", label: "项目素材覆盖" },
-  { value: "12TB", label: "可复用内容资产" },
-  { value: "6", label: "场大型活动统筹" },
+  { value: "近 200", label: "篇媒体与品牌稿件", style: "bg-sky" },
+  { value: "80+", label: "项目素材覆盖", style: "bg-blush" },
+  { value: "12TB", label: "可复用内容资产", style: "bg-mint" },
+  { value: "6", label: "场大型活动统筹", style: "bg-sky" },
 ];
 
-// Waiting for verified public article URLs and cover images from the WeChat backend.
-const featuredArticles = [];
+const featuredArticles = [
+  {
+    title: "甲亢哥Speed游中国：“在场”是最顶级的国际传播",
+    href: "https://mp.weixin.qq.com/s/eE6x5qGqALeOKSPcDtZ_wg",
+    cover: `${import.meta.env.BASE_URL}articles/cover-01.webp`,
+  },
+  {
+    title: "当Meta开始裁员8000人：默会知识，还能藏在大脑里吗？",
+    href: "https://mp.weixin.qq.com/s/Pmo8WycEAL23zpD4ieSNTQ",
+    cover: `${import.meta.env.BASE_URL}articles/cover-02.webp`,
+  },
+  {
+    title: "我用5年时间，才看清注意力是怎么被偷走的",
+    href: "https://mp.weixin.qq.com/s/RNLepvFin0-39GWGydVDJA",
+    cover: `${import.meta.env.BASE_URL}articles/cover-03.webp`,
+  },
+  {
+    title: "“进攻风车”的贾国龙",
+    href: "https://mp.weixin.qq.com/s/I4LnOiAVsYSPRrQo3onVlg",
+    cover: `${import.meta.env.BASE_URL}articles/cover-04.webp`,
+  },
+  {
+    title: "登味的“悟性”到底啥意思？",
+    href: "https://mp.weixin.qq.com/s/tYZgrwcPUwVZfPQgbykS5g",
+    cover: `${import.meta.env.BASE_URL}articles/cover-05.webp`,
+  },
+  {
+    title: "罗永浩西贝直播后，老乡鸡该干嘛？",
+    href: "https://mp.weixin.qq.com/s/ulZXPVHq3dnXnyo8Qx3gtQ",
+    cover: `${import.meta.env.BASE_URL}articles/cover-06.webp`,
+  },
+  {
+    title: "这 文 凭 有 啥 用 ？",
+    href: "https://mp.weixin.qq.com/s/a53VvESIzN_AlwlCBwNDBA",
+    cover: `${import.meta.env.BASE_URL}articles/cover-07.webp`,
+  },
+  {
+    title: "3个方法让你高效利用“被数字化”的人生",
+    href: "https://mp.weixin.qq.com/s/7Afyq-hEbJjLuotY2Dh3Ug",
+    cover: `${import.meta.env.BASE_URL}articles/cover-08.webp`,
+  },
+];
 
 const channels = [
   {
@@ -61,8 +101,9 @@ const channels = [
   {
     title: "抖音",
     english: "DOUYIN",
-    handle: "公开主页链接待补充",
-    note: "当前收到的是本人登录页，访客无法直达",
+    handle: "抖音主页",
+    note: "按本人提供链接访问",
+    href: "https://www.douyin.com/user/self",
     style: "bg-mint",
   },
 ];
@@ -139,9 +180,9 @@ function Eyebrow({ children, light = false }) {
 
 function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-navy/8 bg-cream/88 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-navy/90 backdrop-blur-xl">
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 min-[380px]:px-5 sm:px-8">
-        <Link aria-label="赵元坤，返回首页" className="flex items-baseline gap-3 text-navy" to="/">
+        <Link aria-label="赵元坤，返回首页" className="flex items-baseline gap-3 text-cream" to="/">
           <span className="font-display text-xl">赵元坤</span>
           <span className="font-en hidden text-[11px] tracking-[0.22em] text-muted sm:block">
             YUANKUN ZHAO
@@ -151,7 +192,7 @@ function Header() {
           {navigation.map(({ label, to }) => (
             <NavLink
               className={({ isActive }) =>
-                `relative py-2 transition ${isActive ? "text-navy" : "text-muted hover:text-navy"}`
+                `relative py-2 transition ${isActive ? "text-cream" : "text-muted hover:text-cream"}`
               }
               end={to === "/"}
               key={to}
@@ -160,7 +201,7 @@ function Header() {
               {({ isActive }) => (
                 <>
                   {label}
-                  {isActive && <span className="absolute inset-x-0 -bottom-1 h-px bg-navy" />}
+                  {isActive && <span className="absolute inset-x-0 -bottom-1 h-px bg-cream" />}
                 </>
               )}
             </NavLink>
@@ -173,28 +214,31 @@ function Header() {
 
 function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-navy/10 bg-cream">
+    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-navy">
       <img
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-44 -right-28 hidden w-[32rem] opacity-[0.065] mix-blend-multiply sm:block"
+        className="pointer-events-none absolute -bottom-44 -right-28 hidden w-[32rem] opacity-[0.07] invert mix-blend-screen sm:block"
         loading="lazy"
         src={brandMark}
       />
       <div className="relative mx-auto flex min-h-56 max-w-6xl flex-col justify-between gap-8 px-5 py-12 text-sm text-muted sm:flex-row sm:items-end sm:px-8">
         <div>
-          <p className="font-display text-2xl text-navy">赵元坤</p>
+          <p className="font-display text-2xl text-cream">赵元坤</p>
           <p className="mt-3">品牌公关 · 舆情管理 · 内容创作</p>
         </div>
         <div className="flex flex-wrap gap-x-7 gap-y-3">
-          <a className="transition hover:text-navy" href="mailto:jerryzhao1998@163.com">
+          <a className="transition hover:text-cream" href="mailto:jerryzhao1998@163.com">
             Email
           </a>
-          <a className="transition hover:text-navy" href={channels[0].href} rel="noreferrer" target="_blank">
+          <a className="transition hover:text-cream" href={channels[0].href} rel="noreferrer" target="_blank">
             Bilibili
           </a>
-          <a className="transition hover:text-navy" href={channels[1].href} rel="noreferrer" target="_blank">
+          <a className="transition hover:text-cream" href={channels[1].href} rel="noreferrer" target="_blank">
             小红书
+          </a>
+          <a className="transition hover:text-cream" href={channels[2].href} rel="noreferrer" target="_blank">
+            抖音
           </a>
           <span>© 2026 Zhao Yuankun</span>
         </div>
@@ -236,7 +280,7 @@ function PageIntro({ eyebrow, title, copy }) {
   return (
     <div className="max-w-3xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h1 className="font-display balance mt-7 text-5xl font-normal leading-[1.18] tracking-[-0.05em] text-navy sm:text-7xl">
+      <h1 className="font-display balance mt-7 text-5xl font-normal leading-[1.18] tracking-[-0.05em] text-cream sm:text-7xl">
         {title}
       </h1>
       {copy && <p className="mt-7 max-w-2xl text-lg leading-8 text-muted">{copy}</p>}
@@ -246,7 +290,7 @@ function PageIntro({ eyebrow, title, copy }) {
 
 function WorkIndex({ compact = false }) {
   return (
-    <div className={`divide-y divide-navy/10 border-y border-navy/10 ${compact ? "mt-14" : "mt-16"}`}>
+    <div className={`divide-y divide-white/10 border-y border-white/10 ${compact ? "mt-14" : "mt-16"}`}>
       {featuredWork.map((item) => (
         <Link
           className="group grid gap-4 py-7 transition sm:grid-cols-[4rem_11rem_1fr_auto] sm:items-center sm:gap-6"
@@ -256,10 +300,10 @@ function WorkIndex({ compact = false }) {
           <p className="font-en text-xs tracking-[0.22em] text-muted">{item.number}</p>
           <p className="text-sm text-muted">{item.label}</p>
           <div>
-            <h3 className="font-display text-[1.45rem] font-normal text-navy">{item.title}</h3>
+            <h3 className="font-display text-[1.45rem] font-normal text-cream">{item.title}</h3>
             {!compact && <p className="mt-2 max-w-xl leading-7 text-muted">{item.copy}</p>}
           </div>
-          <span className="mt-2 text-navy transition group-hover:translate-x-1 sm:mt-0">
+          <span className="mt-2 text-cream transition group-hover:translate-x-1 sm:mt-0">
             <Arrow />
           </span>
         </Link>
@@ -316,7 +360,7 @@ function HomePage() {
         <div className="grid gap-10 md:grid-cols-[17rem_1fr]">
           <div>
             <Eyebrow>Selected Work</Eyebrow>
-            <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-navy">作品与影响</h2>
+            <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">作品与影响</h2>
           </div>
           <div>
             <p className="max-w-xl text-lg leading-8 text-muted">
@@ -353,22 +397,28 @@ function HomePage() {
 function ArticleArchive() {
   if (featuredArticles.length === 0) {
     return (
-      <div className="mt-12 flex flex-col justify-between gap-7 border-y border-navy/10 py-9 sm:flex-row sm:items-center">
-        <p className="font-display text-2xl font-normal text-navy">文章将在阅读榜单确认后陈列于此。</p>
+      <div className="mt-12 flex flex-col justify-between gap-7 border-y border-white/10 py-9 sm:flex-row sm:items-center">
+        <p className="font-display text-2xl font-normal text-cream">文章将在内容确认后陈列于此。</p>
         <p className="shrink-0 text-sm text-muted">微信搜索公众号：原始大陆</p>
       </div>
     );
   }
 
   return (
-    <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {featuredArticles.map((article, index) => (
-        <a className="group" href={article.href} key={article.title} rel="noreferrer" target="_blank">
-          <img alt="" className="aspect-[4/5] w-full object-cover" src={article.cover} />
+        <a
+          className="group block border border-white/10 bg-navy-soft p-3 transition hover:border-white/26"
+          href={article.href}
+          key={article.title}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <img alt="" className="aspect-[16/10] w-full object-cover" loading="lazy" src={article.cover} />
           <p className="font-en mt-5 text-[11px] tracking-[0.2em] text-muted">
             NO. {String(index + 1).padStart(2, "0")}
           </p>
-          <h3 className="font-display mt-3 text-lg leading-7 text-navy transition group-hover:text-accent">
+          <h3 className="font-display mt-3 min-h-16 text-lg leading-7 text-cream transition group-hover:text-white">
             {article.title}
           </h3>
         </a>
@@ -380,11 +430,11 @@ function ArticleArchive() {
 function ChannelCard({ channel }) {
   const contents = (
     <>
-      <p className="font-en text-[11px] tracking-[0.24em] text-muted">{channel.english}</p>
+      <p className="font-en text-[11px] tracking-[0.24em] text-navy/60">{channel.english}</p>
       <h3 className="font-display mt-8 text-3xl font-normal text-navy">{channel.title}</h3>
       <p className="mt-4 text-base text-navy">{channel.handle}</p>
-      <p className="mt-3 min-h-14 text-sm leading-7 text-muted">{channel.note}</p>
-      <span className={`mt-8 inline-flex items-center gap-3 text-sm ${channel.href ? "text-navy" : "text-muted"}`}>
+      <p className="mt-3 min-h-14 text-sm leading-7 text-navy/65">{channel.note}</p>
+      <span className="mt-8 inline-flex items-center gap-3 text-sm text-navy">
         {channel.href ? "进入主页" : "待提供公开链接"}
         {channel.href && <Arrow />}
       </span>
@@ -411,24 +461,24 @@ function WorkPage() {
         />
       </section>
 
-      <section className="border-t border-navy/10" id="section-01">
+      <section className="border-t border-white/10" id="section-01">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[17rem_1fr]">
           <div>
             <Eyebrow>01 / Corporate</Eyebrow>
-            <h2 className="font-display mt-7 text-4xl font-normal leading-tight text-navy">企业品牌传播</h2>
+            <h2 className="font-display mt-7 text-4xl font-normal leading-tight text-cream">企业品牌传播</h2>
           </div>
           <div>
-            <h3 className="font-display max-w-2xl text-3xl font-normal leading-snug text-navy sm:text-4xl">
+            <h3 className="font-display max-w-2xl text-3xl font-normal leading-snug text-cream sm:text-4xl">
               媒体传播与品牌内容体系
             </h3>
             <p className="mt-7 max-w-2xl text-lg leading-9 text-muted">
               搭建并维护媒体联络机制，围绕重点项目与企业行动持续输出内容，多篇稿件刊发于新华社、人民日报等央媒与省市媒体，提升项目及企业品牌认知度。
             </p>
-            <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden bg-navy/10 sm:grid-cols-4">
+            <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden bg-white/10 sm:grid-cols-4">
               {practiceMetrics.map((metric) => (
-                <div className="bg-cream px-5 py-7" key={metric.label}>
+                <div className={`${metric.style} px-5 py-7`} key={metric.label}>
                   <p className="font-display text-3xl text-navy">{metric.value}</p>
-                  <p className="mt-3 text-sm leading-6 text-muted">{metric.label}</p>
+                  <p className="mt-3 text-sm leading-6 text-navy/65">{metric.label}</p>
                 </div>
               ))}
             </div>
@@ -436,28 +486,28 @@ function WorkPage() {
         </div>
       </section>
 
-      <section className="border-t border-navy/10 bg-paper" id="section-02">
+      <section className="border-t border-white/10 bg-paper" id="section-02">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
           <Eyebrow>02 / Editorial Column</Eyebrow>
           <div className="mt-7 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <h2 className="font-display text-4xl font-normal leading-tight text-navy sm:text-5xl">
+            <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">
               原始大陆
               <br />
-              高阅读文章专栏
+              精选文章专栏
             </h2>
             <p className="max-w-lg leading-8 text-muted">
-              将公众号中阅读量排名前十的文章整理为作品陈列，点击封面或标题即可进入原文。
+              以下为已选出的八篇公众号文章，点击封面或标题即可进入微信原文。
             </p>
           </div>
           <ArticleArchive />
         </div>
       </section>
 
-      <section className="border-t border-navy/10" id="section-03">
+      <section className="border-t border-white/10" id="section-03">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
           <Eyebrow>03 / Platforms</Eyebrow>
           <div className="mt-7 grid gap-8 lg:grid-cols-[17rem_1fr]">
-            <h2 className="font-display text-4xl font-normal leading-tight text-navy">个人内容品牌</h2>
+            <h2 className="font-display text-4xl font-normal leading-tight text-cream">个人内容品牌</h2>
             <p className="max-w-xl text-lg leading-8 text-muted">
               在不同内容场域中，以视频、图文与短内容持续表达。按平台进入我的公开主页。
             </p>
@@ -476,14 +526,14 @@ function WorkPage() {
 function ResumePage() {
   return (
     <section className="mx-auto max-w-6xl px-5 pb-8 pt-16 sm:px-8 sm:pt-24">
-      <div className="flex flex-col justify-between gap-10 border-b border-navy/10 pb-14 sm:flex-row sm:items-end">
+      <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-14 sm:flex-row sm:items-end">
         <PageIntro
           copy="品牌公关与企业传播从业者，拥有新闻传播研究背景与央企一线内容实践。"
           eyebrow="Resume"
           title="简历"
         />
         <button
-          className="w-fit rounded-full border border-navy/15 px-6 py-3.5 text-sm text-navy transition hover:bg-paper"
+          className="w-fit rounded-full border border-white/20 px-6 py-3.5 text-sm text-cream transition hover:bg-paper"
           onClick={() => window.print()}
           type="button"
         >
@@ -497,7 +547,7 @@ function ResumePage() {
           <p className="mt-7 text-[15px] leading-8 text-muted">
             聚焦品牌传播、内容制作与舆情管理，以现场洞察和编辑能力，将工程项目、企业行动与公共价值准确表达。
           </p>
-          <div className="mt-12 space-y-4 border-t border-navy/10 pt-7 text-sm leading-7 text-muted">
+          <div className="mt-12 space-y-4 border-t border-white/10 pt-7 text-sm leading-7 text-muted">
             {credentials.map((credential) => (
               <p key={credential}>{credential}</p>
             ))}
@@ -506,10 +556,10 @@ function ResumePage() {
         <div>
           <Eyebrow>Experience</Eyebrow>
           {experience.map((item) => (
-            <article className="mt-7 grid gap-5 border-t border-navy/10 py-9 sm:grid-cols-[10rem_1fr]" key={item.company}>
+            <article className="mt-7 grid gap-5 border-t border-white/10 py-9 sm:grid-cols-[10rem_1fr]" key={item.company}>
               <p className="font-en text-sm text-muted">{item.range}</p>
               <div>
-                <h2 className="font-display text-2xl font-normal text-navy">{item.role}</h2>
+                <h2 className="font-display text-2xl font-normal text-cream">{item.role}</h2>
                 <p className="mt-3 text-sm text-muted">{item.company}</p>
                 <p className="mt-6 max-w-2xl text-[15px] leading-8 text-muted">{item.detail}</p>
               </div>
@@ -518,11 +568,11 @@ function ResumePage() {
         </div>
       </div>
 
-      <div className="border-t border-navy/10 py-12">
+      <div className="border-t border-white/10 py-12">
         <Eyebrow>Core Expertise</Eyebrow>
-        <div className="mt-8 grid gap-px overflow-hidden bg-navy/10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-px overflow-hidden bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {["品牌公关与媒体", "新闻摄影与采编", "视频脚本与剪辑", "舆情与声誉管理"].map((skill) => (
-            <div className="bg-cream px-6 py-9 font-display text-xl text-navy" key={skill}>
+            <div className="bg-navy-soft px-6 py-9 font-display text-xl text-cream" key={skill}>
               {skill}
             </div>
           ))}
@@ -549,22 +599,25 @@ function ContactPage() {
             }
           />
           <a
-            className="mt-11 inline-flex items-center gap-3 rounded-full bg-navy px-7 py-4 text-sm text-cream transition hover:bg-navy-soft"
+            className="mt-11 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 text-sm text-navy transition hover:bg-white"
             href="mailto:jerryzhao1998@163.com?subject=Website%20Enquiry"
           >
             jerryzhao1998@163.com <Arrow />
           </a>
         </div>
-        <aside className="border-t border-navy/10 pt-7 lg:mt-16">
+        <aside className="border-t border-white/10 pt-7 lg:mt-16">
           <Eyebrow>Find Me</Eyebrow>
-          <p className="font-display mt-7 text-3xl text-navy">原始大陆</p>
+          <p className="font-display mt-7 text-3xl text-cream">原始大陆</p>
           <p className="mt-3 text-sm leading-7 text-muted">微信公众号 / 微信搜索关注</p>
-          <div className="mt-9 space-y-4 border-t border-navy/10 pt-7 text-sm">
-            <a className="flex justify-between text-navy" href={channels[0].href} rel="noreferrer" target="_blank">
+          <div className="mt-9 space-y-4 border-t border-white/10 pt-7 text-sm">
+            <a className="flex justify-between text-cream" href={channels[0].href} rel="noreferrer" target="_blank">
               哔哩哔哩 <Arrow />
             </a>
-            <a className="flex justify-between text-navy" href={channels[1].href} rel="noreferrer" target="_blank">
+            <a className="flex justify-between text-cream" href={channels[1].href} rel="noreferrer" target="_blank">
               小红书 <Arrow />
+            </a>
+            <a className="flex justify-between text-cream" href={channels[2].href} rel="noreferrer" target="_blank">
+              抖音 <Arrow />
             </a>
           </div>
         </aside>
@@ -577,8 +630,8 @@ function NotFoundPage() {
   return (
     <section className="mx-auto flex min-h-[65vh] max-w-6xl flex-col items-center justify-center px-5 text-center">
       <Eyebrow>404</Eyebrow>
-      <h1 className="font-display mt-7 text-4xl text-navy">页面不存在</h1>
-      <Link className="mt-10 text-sm text-navy" to="/">
+      <h1 className="font-display mt-7 text-4xl text-cream">页面不存在</h1>
+      <Link className="mt-10 text-sm text-cream" to="/">
         返回首页
       </Link>
     </section>

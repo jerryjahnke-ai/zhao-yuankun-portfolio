@@ -30,18 +30,18 @@
   --font-en: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --color-navy: #071b35;
   --color-navy-soft: #102c4c;
-  --color-cream: #fcfbf7;
-  --color-paper: #f3f4f0;
-  --color-muted: #58687b;
-  --color-accent: #284f77;
+  --color-cream: #f7f4ed;
+  --color-paper: #0c2442;
+  --color-muted: #a9b7c8;
+  --color-accent: #d7e1ea;
   --color-sky: #e7eff2;
   --color-blush: #f3ebe8;
   --color-mint: #e8f0eb;
 }
 
 :root {
-  color: var(--color-navy);
-  background: var(--color-cream);
+  color: var(--color-cream);
+  background: var(--color-navy);
   font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -57,7 +57,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: var(--color-cream);
+  background: var(--color-navy);
 }
 
 #root {
@@ -69,8 +69,8 @@ section[id] {
 }
 
 ::selection {
-  color: var(--color-cream);
-  background: var(--color-navy);
+  color: var(--color-navy);
+  background: var(--color-cream);
 }
 
 @layer base {

@@ -15,7 +15,7 @@ The brand mark image is stored at `public/brand-mark.webp`.
 
 ### WeChat Article Column
 
-The article column on the work page is prepared for verified public-account articles. In `src/App.jsx`, add the top ten entries to `featuredArticles` after confirming the reading ranking:
+The article column on the work page is populated from verified public-account article links. In `src/App.jsx`, edit the entries in `featuredArticles` to update articles:
 
 ```js
 {
@@ -25,7 +25,7 @@ The article column on the work page is prepared for verified public-account arti
 }
 ```
 
-Store article cover images in `public/articles/`. A valid public Douyin profile link can also be added in the `channels` list in the same file.
+Store article cover images in `public/articles/`. Social profile links can be edited in the `channels` list in the same file.
 
 ## Publish
 
