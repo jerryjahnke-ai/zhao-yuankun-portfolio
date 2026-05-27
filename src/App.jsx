@@ -326,7 +326,7 @@ function HomePage() {
           <div className="fade-up">
             <Eyebrow light>Brand Communications / Editorial Practice</Eyebrow>
             <h1 className="font-display balance mt-8 text-[2.65rem] font-normal leading-[1.17] tracking-[-0.055em] min-[370px]:text-[3.2rem] sm:text-[5.25rem]">
-              让现场被看见，
+              让品牌被看见，
               <br />
               让价值被理解。
             </h1>
