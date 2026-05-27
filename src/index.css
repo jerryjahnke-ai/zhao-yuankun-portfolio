@@ -1,19 +1,47 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Source Han Serif CN";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/source-han-serif-cn-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Source Han Sans CN";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/source-han-sans-cn-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./assets/fonts/instrument-sans.woff2") format("woff2");
+}
+
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC",
-    "Helvetica Neue", "Microsoft YaHei", Arial, sans-serif;
-  --color-ink: #101114;
-  --color-muted: #62656d;
-  --color-paper: #f7f7f5;
-  --color-line: #e6e6e2;
-  --color-accent: #1259dc;
-  --shadow-card: 0 22px 64px -30px rgba(16, 17, 20, 0.17);
+  --font-sans: "Source Han Sans CN", "Noto Sans SC", "PingFang SC", sans-serif;
+  --font-display: "Source Han Serif CN", "Noto Serif SC", "Songti SC", serif;
+  --font-en: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --color-navy: #071b35;
+  --color-navy-soft: #102c4c;
+  --color-cream: #fcfbf7;
+  --color-paper: #f3f4f0;
+  --color-muted: #58687b;
+  --color-accent: #284f77;
+  --color-sky: #e7eff2;
+  --color-blush: #f3ebe8;
+  --color-mint: #e8f0eb;
 }
 
 :root {
-  color: var(--color-ink);
-  background: var(--color-paper);
+  color: var(--color-navy);
+  background: var(--color-cream);
   font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,21 +57,20 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  background: var(--color-cream);
 }
 
-body::before {
-  position: fixed;
-  z-index: -1;
-  inset: 0;
-  content: "";
-  background:
-    radial-gradient(circle at 58% 3%, rgba(206, 219, 246, 0.42), transparent 36rem),
-    linear-gradient(180deg, #fafaf8 0%, #f7f7f5 56%, #fff 100%);
+#root {
+  min-height: 100vh;
+}
+
+section[id] {
+  scroll-margin-top: 72px;
 }
 
 ::selection {
-  color: white;
-  background: #101114;
+  color: var(--color-cream);
+  background: var(--color-navy);
 }
 
 @layer base {
@@ -53,38 +80,26 @@ body::before {
   }
 }
 
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-en {
+  font-family: var(--font-en);
+}
+
 .balance {
   text-wrap: balance;
 }
 
-.panel-highlight {
-  background:
-    radial-gradient(circle at 70% 22%, rgba(255, 255, 255, 0.75), transparent 30%),
-    linear-gradient(132deg, #eff4fd 0%, #f7f7f8 48%, #edf0f4 100%);
-}
-
-.work-visual {
-  background:
-    radial-gradient(circle at 75% 24%, rgba(255, 255, 255, 0.92), transparent 28%),
-    linear-gradient(125deg, var(--visual-from), var(--visual-to));
-}
-
 .fade-up {
-  animation: fade-up 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.delay-1 {
-  animation-delay: 80ms;
-}
-
-.delay-2 {
-  animation-delay: 160ms;
+  animation: fade-up 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px);
   }
 
   to {
