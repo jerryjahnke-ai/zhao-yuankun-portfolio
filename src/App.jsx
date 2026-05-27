@@ -287,7 +287,7 @@ function HomePage() {
               让价值被理解。
             </h1>
             <p className="mt-9 max-w-xl text-base leading-8 text-white/68 sm:text-lg">
-              我是赵元坤。以新闻采编、影像创作与公共沟通，为组织建立真实、清晰、经得起时间检验的表达。
+              专注品牌公关、舆情管理与内容策划。以新闻采编、影像创作与公共沟通，为企业和组织建立真实、清晰、经得起时间检验的表达。
             </p>
             <div className="mt-11 flex flex-wrap gap-4">
               <ButtonLink to="/work">浏览作品</ButtonLink>
