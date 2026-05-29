@@ -29,6 +29,12 @@ const featuredWork = [
     title: "影像、图文与短内容主页",
     copy: "将内容实践延伸至 B 站、小红书与抖音。",
   },
+  {
+    number: "04",
+    label: "个人摄影",
+    title: "个人摄影作品",
+    copy: "以城市、自然与日常现场为题材，记录光线、结构与人的感受。",
+  },
 ];
 
 const practiceMetrics = [
@@ -78,6 +84,82 @@ const featuredArticles = [
     title: "3个方法让你高效利用“被数字化”的人生",
     href: "https://mp.weixin.qq.com/s/7Afyq-hEbJjLuotY2Dh3Ug",
     cover: `${import.meta.env.BASE_URL}articles/cover-08.webp`,
+  },
+];
+
+// Add new photos here; store full-size and thumbnail WebP assets under public/photography/.
+const photographyWorks = [
+  {
+    title: "蓝色立面",
+    location: "厦门",
+    year: "2024",
+    layout: "large",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/01-amoy-architecture.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/01-amoy-architecture.webp`,
+    alt: "蓝色玻璃建筑立面向天空延展",
+  },
+  {
+    title: "云下嘉庚",
+    location: "厦门",
+    year: "2024",
+    layout: "portrait",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/02-amoy-clouds-campus.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/02-amoy-clouds-campus.webp`,
+    alt: "厦门建筑与巨大白云映在水边",
+  },
+  {
+    title: "红砖与晴空",
+    location: "厦门",
+    year: "2024",
+    layout: "standard",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/03-amoy-red-brick.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/03-amoy-red-brick.webp`,
+    alt: "红砖建筑在晴空和云层下展开",
+  },
+  {
+    title: "绿色层次",
+    location: "厦门",
+    year: "2024",
+    layout: "standard",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/04-amoy-greenery.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/04-amoy-greenery.webp`,
+    alt: "多层绿色树冠与远处建筑",
+  },
+  {
+    title: "屋檐与云",
+    location: "厦门",
+    year: "2024",
+    layout: "standard",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/05-amoy-roofline.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/05-amoy-roofline.webp`,
+    alt: "传统屋檐与白色云层形成几何线条",
+  },
+  {
+    title: "花田里的白山羊",
+    location: "苏州",
+    year: "2024",
+    layout: "wide",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/06-suzhou-goat.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/06-suzhou-goat.webp`,
+    alt: "白色山羊站在阳光下的花田中",
+  },
+  {
+    title: "林间光线",
+    location: "滨湖森林公园",
+    year: "2024",
+    layout: "wide",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/07-forest-light.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/07-forest-light.webp`,
+    alt: "森林公园中光线穿过树木洒向步道",
+  },
+  {
+    title: "荷叶深处",
+    location: "皖北",
+    year: "2024",
+    layout: "wide",
+    thumb: `${import.meta.env.BASE_URL}photography/thumbs/08-lotus-leaves.webp`,
+    src: `${import.meta.env.BASE_URL}photography/full/08-lotus-leaves.webp`,
+    alt: "大片荷叶中一朵粉色荷花含苞待放",
   },
 ];
 
@@ -445,6 +527,58 @@ function ArticleArchive() {
   );
 }
 
+function PhotographyArchive() {
+  const cardClass = {
+    large: "lg:col-span-7",
+    portrait: "lg:col-span-5",
+    standard: "lg:col-span-4",
+    wide: "lg:col-span-4",
+  };
+  const imageClass = {
+    large: "aspect-[16/10] sm:aspect-[16/9]",
+    portrait: "aspect-[4/5] sm:aspect-[3/4]",
+    standard: "aspect-[4/3]",
+    wide: "aspect-[4/3]",
+  };
+
+  return (
+    <div className="mt-14 grid gap-x-5 gap-y-11 lg:grid-cols-12">
+      {photographyWorks.map((photo, index) => (
+        <a
+          className={`group block ${cardClass[photo.layout] ?? "lg:col-span-4"}`}
+          href={photo.src}
+          key={photo.src}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <div className="overflow-hidden border border-white/10 bg-navy-soft">
+            <img
+              alt={photo.alt}
+              className={`w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] ${
+                imageClass[photo.layout] ?? "aspect-[4/3]"
+              }`}
+              decoding="async"
+              loading={index < 2 ? "eager" : "lazy"}
+              src={photo.thumb}
+            />
+          </div>
+          <div className="mt-4 flex items-start justify-between gap-5 border-t border-white/10 pt-4">
+            <div>
+              <h3 className="font-display text-2xl font-normal leading-tight text-cream">{photo.title}</h3>
+              <p className="font-en mt-2 text-[11px] tracking-[0.18em] text-muted">
+                {photo.location} / {photo.year}
+              </p>
+            </div>
+            <span className="mt-1 inline-flex items-center gap-2 text-sm text-muted transition group-hover:text-cream">
+              查看大图 <Arrow />
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function ChannelCard({ channel }) {
   const contents = (
     <>
@@ -538,6 +672,26 @@ function WorkPage() {
               <ChannelCard channel={channel} key={channel.title} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/10 bg-paper" id="section-04">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+          <Eyebrow>04 / Photography</Eyebrow>
+          <div className="mt-7 grid gap-8 lg:grid-cols-[17rem_1fr]">
+            <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">
+              个人摄影作品
+            </h2>
+            <div>
+              <p className="max-w-2xl text-lg leading-8 text-muted">
+                摄影是我观察现场的另一种方式：在建筑的线条、树影的层次和日常片刻中，寻找安静但有力量的秩序。
+              </p>
+              <p className="mt-5 text-sm leading-7 text-muted">
+                点击任意作品可查看高清图。后续新增照片时，只需补充图片资源与 photographyWorks 数据。
+              </p>
+            </div>
+          </div>
+          <PhotographyArchive />
         </div>
       </section>
     </>

@@ -27,6 +27,28 @@ The article column on the work page is populated from verified public-account ar
 
 Store article cover images in `public/articles/`. Social profile links can be edited in the `channels` list in the same file.
 
+### Photography Gallery
+
+The photography section on the work page is driven by the `photographyWorks` list in `src/App.jsx`.
+
+To add a new photo:
+
+1. Export a large WebP image to `public/photography/full/`.
+2. Export a thumbnail WebP image to `public/photography/thumbs/`.
+3. Add one object to `photographyWorks`:
+
+```js
+{
+  title: "Photo title",
+  location: "City or place",
+  year: "2026",
+  layout: "standard", // large, portrait, standard, wide
+  thumb: `${import.meta.env.BASE_URL}photography/thumbs/file-name.webp`,
+  src: `${import.meta.env.BASE_URL}photography/full/file-name.webp`,
+  alt: "Short image description",
+}
+```
+
 ## Publish
 
 Changes pushed to the `main` branch are built and published through GitHub Pages automatically.
