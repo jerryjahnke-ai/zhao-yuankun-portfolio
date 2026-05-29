@@ -29,7 +29,7 @@ Store article cover images in `public/articles/`. Social profile links can be ed
 
 ### Photography Gallery
 
-The photography section on the work page is driven by the `photographyWorks` list in `src/App.jsx`.
+The photography entry on the work page links to the dedicated `/photography` gallery page. The gallery is driven by the `photographyWorks` list in `src/App.jsx`.
 
 To add a new photo:
 

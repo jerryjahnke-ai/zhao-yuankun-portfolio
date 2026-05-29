@@ -579,6 +579,58 @@ function PhotographyArchive() {
   );
 }
 
+function PhotographyAlbumCard() {
+  const previewPhotos = photographyWorks.slice(0, 4);
+
+  return (
+    <Link
+      className="group mt-14 grid overflow-hidden border border-white/10 bg-navy-soft transition hover:border-white/24 lg:grid-cols-[1fr_26rem]"
+      to="/photography"
+    >
+      <div className="flex min-h-[24rem] flex-col justify-between p-8 sm:p-10">
+        <div>
+          <p className="font-en text-[11px] tracking-[0.22em] text-muted">PHOTO FOLDER / {photographyWorks.length} WORKS</p>
+          <h3 className="font-display mt-7 max-w-xl text-4xl font-normal leading-tight text-cream sm:text-5xl">
+            像翻开一只摄影文件夹。
+          </h3>
+          <p className="mt-7 max-w-xl text-lg leading-8 text-muted">
+            这里先保留一组拍立得式入口。进入后，再以完整画廊浏览城市、建筑、自然与日常现场。
+          </p>
+        </div>
+        <span className="mt-10 inline-flex w-fit items-center gap-3 rounded-full bg-cream px-6 py-3.5 text-sm text-navy transition group-hover:bg-white">
+          进入摄影文件夹 <Arrow />
+        </span>
+      </div>
+
+      <div className="relative min-h-[24rem] overflow-hidden border-t border-white/10 bg-cream/95 lg:border-l lg:border-t-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.8),transparent_34%),linear-gradient(135deg,rgba(193,225,255,0.45),rgba(245,214,218,0.46),rgba(209,236,218,0.34))]" />
+        {previewPhotos.map((photo, index) => {
+          const frames = [
+            "left-[11%] top-[18%] z-20 -rotate-6",
+            "left-[36%] top-[10%] z-30 rotate-3",
+            "left-[22%] top-[42%] z-10 rotate-6",
+            "left-[58%] top-[35%] z-20 -rotate-3",
+          ];
+
+          return (
+            <div
+              className={`absolute w-44 bg-white p-3 pb-10 shadow-[0_24px_70px_rgba(0,0,0,0.24)] transition duration-700 group-hover:-translate-y-2 sm:w-52 ${
+                frames[index]
+              }`}
+              key={photo.src}
+            >
+              <img alt="" aria-hidden="true" className="aspect-[4/3] w-full object-cover" loading="lazy" src={photo.thumb} />
+              <span className="font-en mt-3 block text-[10px] tracking-[0.2em] text-navy/55">
+                {String(index + 1).padStart(2, "0")} / {photo.location}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </Link>
+  );
+}
+
 function ChannelCard({ channel }) {
   const contents = (
     <>
@@ -687,10 +739,43 @@ function WorkPage() {
                 摄影是我观察现场的另一种方式：在建筑的线条、树影的层次和日常片刻中，寻找安静但有力量的秩序。
               </p>
               <p className="mt-5 text-sm leading-7 text-muted">
-                点击任意作品可查看高清图。后续新增照片时，只需补充图片资源与 photographyWorks 数据。
+                作品页先以相册入口呈现，进入摄影文件夹后再浏览完整图片集。
               </p>
             </div>
           </div>
+          <PhotographyAlbumCard />
+        </div>
+      </section>
+    </>
+  );
+}
+
+function PhotographyPage() {
+  return (
+    <>
+      <section className="mx-auto max-w-6xl px-5 pb-14 pt-16 sm:px-8 sm:pt-24">
+        <Link className="inline-flex items-center gap-3 text-sm text-muted transition hover:text-cream" to="/work?section=04">
+          <span className="rotate-180">
+            <Arrow />
+          </span>
+          返回作品与影响
+        </Link>
+        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_18rem] lg:items-end">
+          <PageIntro
+            copy="一组持续更新的个人摄影文件夹：城市、建筑、自然与日常现场，被整理为可慢慢翻看的视觉索引。"
+            eyebrow="Photography Folder"
+            title="个人摄影作品"
+          />
+          <div className="border-t border-white/10 pt-6 text-sm leading-7 text-muted lg:border-l lg:border-t-0 lg:pl-7">
+            <p className="font-en text-[11px] tracking-[0.2em] text-muted">CURRENT ARCHIVE</p>
+            <p className="font-display mt-5 text-3xl text-cream">{photographyWorks.length} 张作品</p>
+            <p className="mt-5">点击任意照片可打开高清图。后续新增作品会继续进入这个文件夹。</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/10 bg-paper">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
           <PhotographyArchive />
         </div>
       </section>
@@ -819,6 +904,7 @@ export default function App() {
       <Routes>
         <Route element={<HomePage />} path="/" />
         <Route element={<WorkPage />} path="/work" />
+        <Route element={<PhotographyPage />} path="/photography" />
         <Route element={<ResumePage />} path="/resume" />
         <Route element={<ContactPage />} path="/contact" />
         <Route element={<NotFoundPage />} path="*" />
