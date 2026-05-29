@@ -155,80 +155,18 @@ function Arrow() {
 }
 
 function PlatformIcon({ platform }) {
-  const common = "size-12 shrink-0";
+  const logos = {
+    bilibili: `${import.meta.env.BASE_URL}platforms/bilibili.webp`,
+    rednote: `${import.meta.env.BASE_URL}platforms/xiaohongshu.webp`,
+    douyin: `${import.meta.env.BASE_URL}platforms/douyin.webp`,
+  };
 
-  if (platform === "bilibili") {
-    return (
-      <svg aria-hidden="true" className={common} viewBox="0 0 64 64">
-        <path d="M18 16 11 8M46 16l7-8" stroke="#00A1D6" strokeLinecap="round" strokeWidth="4" />
-        <rect fill="#00A1D6" height="38" rx="10" width="50" x="7" y="18" />
-        <rect fill="#fff" height="22" rx="5" width="36" x="14" y="26" />
-        <path d="M24 34v5m16-5v5" stroke="#00A1D6" strokeLinecap="round" strokeWidth="3.5" />
-      </svg>
-    );
-  }
+  const className =
+    platform === "bilibili"
+      ? "h-11 w-32 rounded-xl bg-white object-contain px-2 py-1.5"
+      : "size-14 rounded-2xl object-cover";
 
-  if (platform === "rednote") {
-    return (
-      <svg aria-hidden="true" className={common} viewBox="0 0 64 64">
-        <rect fill="#ff2442" height="52" rx="14" width="52" x="6" y="6" />
-        <text
-          fill="#fff"
-          fontFamily="Source Han Sans CN, Noto Sans SC, sans-serif"
-          fontSize="15"
-          fontWeight="700"
-          letterSpacing="1"
-          x="32"
-          y="29"
-          textAnchor="middle"
-        >
-          小红
-        </text>
-        <text
-          fill="#fff"
-          fontFamily="Source Han Sans CN, Noto Sans SC, sans-serif"
-          fontSize="15"
-          fontWeight="700"
-          letterSpacing="1"
-          x="32"
-          y="46"
-          textAnchor="middle"
-        >
-          书
-        </text>
-      </svg>
-    );
-  }
-
-  return (
-    <svg aria-hidden="true" className={common} viewBox="0 0 64 64">
-      <circle cx="32" cy="32" fill="#111" r="26" />
-      <path
-        d="M36 18v23.5c0 7.4-5.2 11.5-11.3 11.5-5.4 0-9.5-3.6-9.5-8.6 0-5.1 4.1-8.8 9.8-8.8 1.3 0 2.6.2 3.7.6V24.5c5.1 4.7 10 7.3 15.3 7.7v7.3c-3.1-.1-6.1-1.1-8.9-3v5"
-        fill="none"
-        stroke="#25f4ee"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      />
-      <path
-        d="M40 18v23.5c0 7.4-5.2 11.5-11.3 11.5-5.4 0-9.5-3.6-9.5-8.6"
-        fill="none"
-        stroke="#fe2c55"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      />
-      <path
-        d="M38 18v23.5c0 7.4-5.2 11.5-11.3 11.5-5.4 0-9.5-3.6-9.5-8.6 0-5.1 4.1-8.8 9.8-8.8 1.3 0 2.6.2 3.7.6V24.5c5.1 4.7 10 7.3 15.3 7.7v7.3c-3.1-.1-6.1-1.1-8.9-3"
-        fill="none"
-        stroke="#fff"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      />
-    </svg>
-  );
+  return <img alt="" aria-hidden="true" className={className} loading="lazy" src={logos[platform]} />;
 }
 
 function ScrollToTop() {
