@@ -88,6 +88,7 @@ const channels = [
     handle: "原始大陆PM",
     note: "视频与影像作品",
     href: "https://space.bilibili.com/136635542?spm_id_from=333.1007.0.0",
+    icon: "bilibili",
     style: "bg-sky",
   },
   {
@@ -96,6 +97,7 @@ const channels = [
     handle: "原始大陆 PM",
     note: "图文与生活观察",
     href: "https://www.xiaohongshu.com/user/profile/641d94a7000000001f032ed3",
+    icon: "rednote",
     style: "bg-blush",
   },
   {
@@ -104,6 +106,7 @@ const channels = [
     handle: "抖音主页",
     note: "按本人提供链接访问",
     href: "https://www.douyin.com/user/self",
+    icon: "douyin",
     style: "bg-mint",
   },
 ];
@@ -151,6 +154,83 @@ function Arrow() {
   );
 }
 
+function PlatformIcon({ platform }) {
+  const common = "size-12 shrink-0";
+
+  if (platform === "bilibili") {
+    return (
+      <svg aria-hidden="true" className={common} viewBox="0 0 64 64">
+        <path d="M18 16 11 8M46 16l7-8" stroke="#00A1D6" strokeLinecap="round" strokeWidth="4" />
+        <rect fill="#00A1D6" height="38" rx="10" width="50" x="7" y="18" />
+        <rect fill="#fff" height="22" rx="5" width="36" x="14" y="26" />
+        <path d="M24 34v5m16-5v5" stroke="#00A1D6" strokeLinecap="round" strokeWidth="3.5" />
+      </svg>
+    );
+  }
+
+  if (platform === "rednote") {
+    return (
+      <svg aria-hidden="true" className={common} viewBox="0 0 64 64">
+        <rect fill="#ff2442" height="52" rx="14" width="52" x="6" y="6" />
+        <text
+          fill="#fff"
+          fontFamily="Source Han Sans CN, Noto Sans SC, sans-serif"
+          fontSize="15"
+          fontWeight="700"
+          letterSpacing="1"
+          x="32"
+          y="29"
+          textAnchor="middle"
+        >
+          小红
+        </text>
+        <text
+          fill="#fff"
+          fontFamily="Source Han Sans CN, Noto Sans SC, sans-serif"
+          fontSize="15"
+          fontWeight="700"
+          letterSpacing="1"
+          x="32"
+          y="46"
+          textAnchor="middle"
+        >
+          书
+        </text>
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" className={common} viewBox="0 0 64 64">
+      <circle cx="32" cy="32" fill="#111" r="26" />
+      <path
+        d="M36 18v23.5c0 7.4-5.2 11.5-11.3 11.5-5.4 0-9.5-3.6-9.5-8.6 0-5.1 4.1-8.8 9.8-8.8 1.3 0 2.6.2 3.7.6V24.5c5.1 4.7 10 7.3 15.3 7.7v7.3c-3.1-.1-6.1-1.1-8.9-3v5"
+        fill="none"
+        stroke="#25f4ee"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+      <path
+        d="M40 18v23.5c0 7.4-5.2 11.5-11.3 11.5-5.4 0-9.5-3.6-9.5-8.6"
+        fill="none"
+        stroke="#fe2c55"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+      <path
+        d="M38 18v23.5c0 7.4-5.2 11.5-11.3 11.5-5.4 0-9.5-3.6-9.5-8.6 0-5.1 4.1-8.8 9.8-8.8 1.3 0 2.6.2 3.7.6V24.5c5.1 4.7 10 7.3 15.3 7.7v7.3c-3.1-.1-6.1-1.1-8.9-3"
+        fill="none"
+        stroke="#fff"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+    </svg>
+  );
+}
+
 function ScrollToTop() {
   const { pathname, search } = useLocation();
 
@@ -185,7 +265,7 @@ function Header() {
         <Link aria-label="赵元坤，返回首页" className="flex items-baseline gap-3 text-cream" to="/">
           <span className="font-display text-xl">赵元坤</span>
           <span className="font-en hidden text-[11px] tracking-[0.22em] text-muted sm:block">
-            YUANKUN ZHAO
+            Jerry Jahnke
           </span>
         </Link>
         <nav aria-label="主导航" className="flex items-center gap-3 text-[13px] min-[380px]:gap-5 min-[380px]:text-sm sm:gap-8">
@@ -364,7 +444,7 @@ function HomePage() {
           </div>
           <div>
             <p className="max-w-xl text-lg leading-8 text-muted">
-              我关心的不只是内容被发布，更是信息如何建立理解、连接人与组织，并留下长期价值。
+              注重传播的信息如何建立连接桥梁，留下长期价值。
             </p>
             <WorkIndex compact />
           </div>
@@ -375,7 +455,7 @@ function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 md:grid-cols-[17rem_1fr] sm:py-24">
           <div>
             <Eyebrow light>Practice</Eyebrow>
-            <h2 className="font-display mt-6 text-4xl font-normal leading-tight">工作方法</h2>
+            <h2 className="font-display mt-6 text-4xl font-normal leading-tight">工作实践</h2>
           </div>
           <div className="divide-y divide-white/14 border-t border-white/14">
             {capabilities.map((item) => (
@@ -430,7 +510,10 @@ function ArticleArchive() {
 function ChannelCard({ channel }) {
   const contents = (
     <>
-      <p className="font-en text-[11px] tracking-[0.24em] text-navy/60">{channel.english}</p>
+      <div className="flex items-start justify-between gap-5">
+        <p className="font-en text-[11px] tracking-[0.24em] text-navy/60">{channel.english}</p>
+        <PlatformIcon platform={channel.icon} />
+      </div>
       <h3 className="font-display mt-8 text-3xl font-normal text-navy">{channel.title}</h3>
       <p className="mt-4 text-base text-navy">{channel.handle}</p>
       <p className="mt-3 min-h-14 text-sm leading-7 text-navy/65">{channel.note}</p>
