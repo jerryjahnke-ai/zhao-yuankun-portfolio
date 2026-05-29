@@ -103,8 +103,8 @@ const channels = [
   {
     title: "抖音",
     english: "DOUYIN",
-    handle: "抖音主页",
-    note: "按本人提供链接访问",
+    handle: "原始大陆 PM",
+    note: "短视频与即时表达",
     href: "https://www.douyin.com/user/self",
     icon: "douyin",
     style: "bg-mint",
