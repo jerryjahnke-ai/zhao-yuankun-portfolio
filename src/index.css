@@ -88,6 +88,14 @@ section[id] {
   font-family: var(--font-en);
 }
 
+html[data-lang="en"] {
+  font-family: var(--font-en);
+}
+
+html[data-lang="en"] .font-display {
+  font-family: var(--font-en);
+}
+
 .balance {
   text-wrap: balance;
 }

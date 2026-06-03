@@ -1,87 +1,352 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
 
 const brandMark = `${import.meta.env.BASE_URL}brand-mark.webp`;
+const languageStorageKey = "jerryzhao-language";
+
+const siteCopy = {
+  zh: {
+    siteTitle: "赵元坤｜从内容表达走向价值连接 Jerry Zhao｜From Storytelling to Value Creation",
+    siteDescription: "赵元坤｜从内容表达走向价值连接 Jerry Zhao｜From Storytelling to Value Creation",
+    languageToggleLabel: "切换为英文",
+    header: {
+      homeLabel: "赵元坤，返回首页",
+      name: "赵元坤",
+      subName: "Jerry Zhao",
+      navLabel: "主导航",
+    },
+    footer: {
+      name: "赵元坤",
+      tagline: "品牌公关 · 舆情管理 · 内容创作",
+      rednote: "小红书",
+      douyin: "抖音",
+      copyright: "© 2026 Zhao Yuankun",
+    },
+    nav: {
+      home: "首页",
+      work: "作品",
+      resume: "简历",
+      contact: "联系",
+    },
+    common: {
+      enterProfile: "进入主页",
+      pendingLink: "待提供公开链接",
+      viewFullImage: "查看大图",
+      downloadPdf: "下载 PDF",
+    },
+    home: {
+      eyebrow: "Brand Communications / Editorial Practice",
+      heroLines: ["让品牌被看见，", "让价值被理解。"],
+      intro:
+        "专注品牌公关、舆情管理与内容策划。以新闻采编、影像创作与公共沟通，为企业和组织建立真实、清晰、经得起时间检验的表达。",
+      workCta: "浏览作品",
+      contactCta: "联系我",
+      focusEyebrow: "Current Focus",
+      focusTitle: ["企业文化", "与品牌传播"],
+      focusCopy: ["内容策略", "媒体关系与舆情管理"],
+      selectedEyebrow: "Selected Work",
+      selectedTitle: "作品与影响",
+      selectedCopy: "注重传播的信息如何建立连接桥梁，留下长期价值。",
+      practiceEyebrow: "Practice",
+      practiceTitle: "工作实践",
+    },
+    articles: {
+      emptyTitle: "文章将在内容确认后陈列于此。",
+      emptyCopy: "微信搜索公众号：原始大陆",
+    },
+    workPage: {
+      eyebrow: "Portfolio",
+      title: "作品与影响",
+      copy: "从企业新闻传播到个人内容品牌，文字、影像与平台运营共同构成我的传播实践。",
+      corporateEyebrow: "01 / Corporate",
+      corporateTitle: "企业品牌传播",
+      corporateHeading: "媒体传播与品牌内容体系",
+      corporateCopy:
+        "搭建并维护媒体联络机制，围绕重点项目与企业行动持续输出内容，多篇稿件刊发于新华社、人民日报等央媒与省市媒体，提升项目及企业品牌认知度。",
+      editorialEyebrow: "02 / Editorial Column",
+      editorialTitle: ["原始大陆", "精选文章专栏"],
+      editorialCopy: "以下为已选出的八篇公众号文章，点击封面或标题即可进入微信原文。",
+      platformEyebrow: "03 / Platforms",
+      platformTitle: "个人内容品牌",
+      platformCopy: "在不同内容场域中，以视频、图文与短内容持续表达。按平台进入我的公开主页。",
+      photoEyebrow: "04 / Photography",
+      photoTitle: "个人摄影作品",
+      photoCopy: "摄影是我观察现场的另一种方式：在建筑的线条、树影的层次和日常片刻中，寻找安静但有力量的秩序。",
+      photoNote: "作品页先以相册入口呈现，进入摄影文件夹后再浏览完整图片集。",
+    },
+    photoAlbum: {
+      title: "像翻开一只摄影文件夹。",
+      copy: "这里先保留一组拍立得式入口。进入后，再以完整画廊浏览城市、建筑、自然与日常现场。",
+      cta: "进入摄影文件夹",
+    },
+    photographyPage: {
+      back: "返回作品与影响",
+      eyebrow: "Photography Folder",
+      title: "个人摄影作品",
+      copy: "一组持续更新的个人摄影文件夹：城市、建筑、自然与日常现场，被整理为可慢慢翻看的视觉索引。",
+      archiveEyebrow: "Current Archive",
+      countLabel: "张作品",
+      note: "点击任意照片可打开高清图。后续新增作品会继续进入这个文件夹。",
+    },
+    resumePage: {
+      eyebrow: "Resume",
+      title: "简历",
+      copy: "品牌公关与企业传播从业者，拥有新闻传播研究背景与央企一线内容实践。",
+      print: "打印 / 保存简历",
+      downloadsEyebrow: "Downloads",
+      downloadsTitle: "下载 PDF 简历",
+      downloadsCopy: "中英文简历统一放在网站资源目录中，后续替换同名 PDF 文件即可更新下载内容。",
+      profileEyebrow: "Profile",
+      profileCopy:
+        "聚焦品牌传播、内容制作与舆情管理，以现场洞察和编辑能力，将工程项目、企业行动与公共价值准确表达。",
+      experienceEyebrow: "Experience",
+      expertiseEyebrow: "Core Expertise",
+    },
+    contactPage: {
+      eyebrow: "Contact",
+      titleLines: ["交流工作，", "也分享内容。"],
+      copy: "关注品牌传播、内容制作与公共关系。欢迎通过邮件交流工作，也欢迎在微信搜索公众号“原始大陆”阅读我的文字。",
+      findMe: "Find Me",
+      account: "原始大陆",
+      accountNote: "微信公众号 / 微信搜索关注",
+    },
+    notFound: {
+      title: "页面不存在",
+      back: "返回首页",
+    },
+  },
+  en: {
+    siteTitle: "Jerry Zhao | From Storytelling to Value Creation",
+    siteDescription: "Jerry Zhao | Brand communications, editorial practice, reputation management and value creation.",
+    languageToggleLabel: "Switch to Chinese",
+    header: {
+      homeLabel: "Jerry Zhao, back to home",
+      name: "Jerry Zhao",
+      subName: "Value Creation",
+      navLabel: "Primary navigation",
+    },
+    footer: {
+      name: "Jerry Zhao",
+      tagline: "Brand Communications · Reputation Management · Editorial Practice",
+      rednote: "Rednote",
+      douyin: "Douyin",
+      copyright: "© 2026 Jerry Zhao",
+    },
+    nav: {
+      home: "Home",
+      work: "Work",
+      resume: "Resume",
+      contact: "Contact",
+    },
+    common: {
+      enterProfile: "Enter Profile",
+      pendingLink: "Public link pending",
+      viewFullImage: "View Full Image",
+      downloadPdf: "Download PDF",
+    },
+    home: {
+      eyebrow: "Brand Communications / Editorial Practice",
+      heroLines: ["Making brands visible,", "and value understood."],
+      intro:
+        "I work across brand communications, reputation management and editorial strategy, turning field reporting, visual storytelling and public dialogue into clear, credible expression for organizations.",
+      workCta: "Explore Work",
+      contactCta: "Contact Me",
+      focusEyebrow: "Current Focus",
+      focusTitle: ["Corporate Culture", "Brand Communications"],
+      focusCopy: ["Content Strategy", "Media Relations & Issues Management"],
+      selectedEyebrow: "Selected Work",
+      selectedTitle: "Work & Influence",
+      selectedCopy: "I focus on how information builds bridges, creates understanding and leaves durable value.",
+      practiceEyebrow: "Practice",
+      practiceTitle: "Practice Areas",
+    },
+    articles: {
+      emptyTitle: "Articles will appear here once the selection is confirmed.",
+      emptyCopy: "WeChat public account: Original Mainland",
+    },
+    workPage: {
+      eyebrow: "Portfolio",
+      title: "Work & Influence",
+      copy: "From corporate news communication to personal content platforms, my practice connects writing, visuals and platform operations.",
+      corporateEyebrow: "01 / Corporate",
+      corporateTitle: "Corporate Brand Communications",
+      corporateHeading: "Media Relations and Brand Content Systems",
+      corporateCopy:
+        "I build and maintain media connections, produce sustained content around key projects and corporate actions, and help strengthen public recognition through central, provincial and local media coverage.",
+      editorialEyebrow: "02 / Editorial Column",
+      editorialTitle: ["Original Mainland", "Selected Article Column"],
+      editorialCopy: "A curated set of public-account articles. Click any cover or title to read the original WeChat article.",
+      platformEyebrow: "03 / Platforms",
+      platformTitle: "Personal Content Platforms",
+      platformCopy: "Across video, visual notes and short-form content, these profiles extend my public-facing editorial practice.",
+      photoEyebrow: "04 / Photography",
+      photoTitle: "Personal Photography",
+      photoCopy:
+        "Photography is another way I read the field: looking for quiet order in architecture, light, trees and everyday moments.",
+      photoNote: "The work page keeps this as an album entry; the full image set lives inside the photography folder.",
+    },
+    photoAlbum: {
+      title: "Open it like a photography folder.",
+      copy: "A Polaroid-style entry comes first. Inside, the full gallery gathers city, architecture, nature and everyday scenes.",
+      cta: "Open Photography Folder",
+    },
+    photographyPage: {
+      back: "Back to Work & Influence",
+      eyebrow: "Photography Folder",
+      title: "Personal Photography",
+      copy: "A growing visual archive of cities, architecture, nature and everyday scenes, arranged as a quiet index for slow viewing.",
+      archiveEyebrow: "Current Archive",
+      countLabel: "works",
+      note: "Click any image to open the high-resolution version. New work will continue to be added to this folder.",
+    },
+    resumePage: {
+      eyebrow: "Resume",
+      title: "Resume",
+      copy: "A brand communications practitioner with a graduate background in journalism and communication, grounded in frontline corporate content work.",
+      print: "Print / Save Resume",
+      downloadsEyebrow: "Downloads",
+      downloadsTitle: "Download PDF Resume",
+      downloadsCopy: "Chinese and English PDF resumes are stored in the site assets. Replace the same files to update future downloads.",
+      profileEyebrow: "Profile",
+      profileCopy:
+        "I focus on brand communications, editorial production and issues management, translating projects, organizational actions and public value into precise expression.",
+      experienceEyebrow: "Experience",
+      expertiseEyebrow: "Core Expertise",
+    },
+    contactPage: {
+      eyebrow: "Contact",
+      titleLines: ["For work conversations,", "and shared ideas."],
+      copy: "I am open to conversations around brand communications, content production and public relations. You can reach me by email or read my writing through the WeChat public account Original Mainland.",
+      findMe: "Find Me",
+      account: "Original Mainland",
+      accountNote: "WeChat Public Account",
+    },
+    notFound: {
+      title: "Page Not Found",
+      back: "Back Home",
+    },
+  },
+};
 
 const navigation = [
-  { label: "首页", to: "/" },
-  { label: "作品", to: "/work" },
-  { label: "简历", to: "/resume" },
-  { label: "联系", to: "/contact" },
+  { key: "home", to: "/" },
+  { key: "work", to: "/work" },
+  { key: "resume", to: "/resume" },
+  { key: "contact", to: "/contact" },
 ];
 
 const featuredWork = [
   {
     number: "01",
-    label: "企业品牌",
-    title: "媒体传播与品牌内容体系",
-    copy: "持续围绕重点项目与企业行动生产内容，建立媒体连接与声誉表达。",
+    label: { zh: "企业品牌", en: "Corporate Brand" },
+    title: { zh: "媒体传播与品牌内容体系", en: "Media Relations and Brand Content Systems" },
+    copy: {
+      zh: "持续围绕重点项目与企业行动生产内容，建立媒体连接与声誉表达。",
+      en: "Sustained content work around key projects and corporate actions, building media connection and reputation expression.",
+    },
   },
   {
     number: "02",
-    label: "原始大陆",
-    title: "公众号精选文章专栏",
-    copy: "以文章为作品，呈现关于传播、技术与生活的长期观察。",
+    label: { zh: "原始大陆", en: "Original Mainland" },
+    title: { zh: "公众号精选文章专栏", en: "Selected Public-Account Articles" },
+    copy: {
+      zh: "以文章为作品，呈现关于传播、技术与生活的长期观察。",
+      en: "Long-form observations on communication, technology and everyday life, presented as an editorial body of work.",
+    },
   },
   {
     number: "03",
-    label: "内容平台",
-    title: "影像、图文与短内容主页",
-    copy: "将内容实践延伸至 B 站、小红书与抖音。",
+    label: { zh: "内容平台", en: "Content Platforms" },
+    title: { zh: "影像、图文与短内容主页", en: "Video, Visual Notes and Short-Form Profiles" },
+    copy: {
+      zh: "将内容实践延伸至 B 站、小红书与抖音。",
+      en: "Extending editorial practice across Bilibili, Rednote and Douyin.",
+    },
   },
   {
     number: "04",
-    label: "个人摄影",
-    title: "个人摄影作品",
-    copy: "以城市、自然与日常现场为题材，记录光线、结构与人的感受。",
+    label: { zh: "个人摄影", en: "Photography" },
+    title: { zh: "个人摄影作品", en: "Personal Photography" },
+    copy: {
+      zh: "以城市、自然与日常现场为题材，记录光线、结构与人的感受。",
+      en: "A visual archive of cities, nature and everyday scenes, attentive to light, structure and feeling.",
+    },
   },
 ];
 
 const practiceMetrics = [
-  { value: "近 200", label: "篇媒体与品牌稿件", style: "bg-sky" },
-  { value: "80+", label: "项目素材覆盖", style: "bg-blush" },
-  { value: "12TB", label: "可复用内容资产", style: "bg-mint" },
-  { value: "6", label: "场大型活动统筹", style: "bg-sky" },
+  {
+    value: { zh: "近 200", en: "Nearly 200" },
+    label: { zh: "篇媒体与品牌稿件", en: "media and brand stories" },
+    style: "bg-sky",
+  },
+  { value: "80+", label: { zh: "项目素材覆盖", en: "project asset sets" }, style: "bg-blush" },
+  { value: "12TB", label: { zh: "可复用内容资产", en: "reusable content assets" }, style: "bg-mint" },
+  { value: "6", label: { zh: "场大型活动统筹", en: "major events coordinated" }, style: "bg-sky" },
 ];
 
 const featuredArticles = [
   {
-    title: "甲亢哥Speed游中国：“在场”是最顶级的国际传播",
+    title: {
+      zh: "甲亢哥Speed游中国：“在场”是最顶级的国际传播",
+      en: "Speed Visits China: Presence as a Strong Form of International Communication",
+    },
     href: "https://mp.weixin.qq.com/s/eE6x5qGqALeOKSPcDtZ_wg",
     cover: `${import.meta.env.BASE_URL}articles/cover-01.webp`,
   },
   {
-    title: "当Meta开始裁员8000人：默会知识，还能藏在大脑里吗？",
+    title: {
+      zh: "当Meta开始裁员8000人：默会知识，还能藏在大脑里吗？",
+      en: "When Meta Cuts 8,000 Jobs: Can Tacit Knowledge Still Live in the Mind?",
+    },
     href: "https://mp.weixin.qq.com/s/Pmo8WycEAL23zpD4ieSNTQ",
     cover: `${import.meta.env.BASE_URL}articles/cover-02.webp`,
   },
   {
-    title: "我用5年时间，才看清注意力是怎么被偷走的",
+    title: {
+      zh: "我用5年时间，才看清注意力是怎么被偷走的",
+      en: "It Took Me Five Years to See How Attention Gets Stolen",
+    },
     href: "https://mp.weixin.qq.com/s/RNLepvFin0-39GWGydVDJA",
     cover: `${import.meta.env.BASE_URL}articles/cover-03.webp`,
   },
   {
-    title: "“进攻风车”的贾国龙",
+    title: {
+      zh: "“进攻风车”的贾国龙",
+      en: "Jia Guolong and the Windmill He Chose to Attack",
+    },
     href: "https://mp.weixin.qq.com/s/I4LnOiAVsYSPRrQo3onVlg",
     cover: `${import.meta.env.BASE_URL}articles/cover-04.webp`,
   },
   {
-    title: "登味的“悟性”到底啥意思？",
+    title: {
+      zh: "登味的“悟性”到底啥意思？",
+      en: "What Does the Internet Slang Wuxing Really Mean?",
+    },
     href: "https://mp.weixin.qq.com/s/tYZgrwcPUwVZfPQgbykS5g",
     cover: `${import.meta.env.BASE_URL}articles/cover-05.webp`,
   },
   {
-    title: "罗永浩西贝直播后，老乡鸡该干嘛？",
+    title: {
+      zh: "罗永浩西贝直播后，老乡鸡该干嘛？",
+      en: "After Luo Yonghao and Xibei's Livestream, What Should Laoxiangji Do?",
+    },
     href: "https://mp.weixin.qq.com/s/ulZXPVHq3dnXnyo8Qx3gtQ",
     cover: `${import.meta.env.BASE_URL}articles/cover-06.webp`,
   },
   {
-    title: "这 文 凭 有 啥 用 ？",
+    title: {
+      zh: "这 文 凭 有 啥 用 ？",
+      en: "What Is This Diploma Really For?",
+    },
     href: "https://mp.weixin.qq.com/s/a53VvESIzN_AlwlCBwNDBA",
     cover: `${import.meta.env.BASE_URL}articles/cover-07.webp`,
   },
   {
-    title: "3个方法让你高效利用“被数字化”的人生",
+    title: {
+      zh: "3个方法让你高效利用“被数字化”的人生",
+      en: "Three Ways to Use a Digitized Life More Efficiently",
+    },
     href: "https://mp.weixin.qq.com/s/7Afyq-hEbJjLuotY2Dh3Ug",
     cover: `${import.meta.env.BASE_URL}articles/cover-08.webp`,
   },
@@ -90,103 +355,103 @@ const featuredArticles = [
 // Add new photos here; store full-size and thumbnail WebP assets under public/photography/.
 const photographyWorks = [
   {
-    title: "蓝色立面",
-    location: "厦门",
+    title: { zh: "蓝色立面", en: "Blue Facade" },
+    location: { zh: "厦门", en: "Xiamen" },
     year: "2024",
     layout: "large",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/01-amoy-architecture.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/01-amoy-architecture.webp`,
-    alt: "蓝色玻璃建筑立面向天空延展",
+    alt: { zh: "蓝色玻璃建筑立面向天空延展", en: "A blue glass facade rising toward the sky" },
   },
   {
-    title: "云下嘉庚",
-    location: "厦门",
+    title: { zh: "云下嘉庚", en: "Jiageng Under Clouds" },
+    location: { zh: "厦门", en: "Xiamen" },
     year: "2024",
     layout: "portrait",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/02-amoy-clouds-campus.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/02-amoy-clouds-campus.webp`,
-    alt: "厦门建筑与巨大白云映在水边",
+    alt: { zh: "厦门建筑与巨大白云映在水边", en: "Xiamen architecture beneath large white clouds by the water" },
   },
   {
-    title: "红砖与晴空",
-    location: "厦门",
+    title: { zh: "红砖与晴空", en: "Red Brick, Clear Sky" },
+    location: { zh: "厦门", en: "Xiamen" },
     year: "2024",
     layout: "standard",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/03-amoy-red-brick.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/03-amoy-red-brick.webp`,
-    alt: "红砖建筑在晴空和云层下展开",
+    alt: { zh: "红砖建筑在晴空和云层下展开", en: "A red-brick building opening under clouds and blue sky" },
   },
   {
-    title: "绿色层次",
-    location: "厦门",
+    title: { zh: "绿色层次", en: "Layers of Green" },
+    location: { zh: "厦门", en: "Xiamen" },
     year: "2024",
     layout: "standard",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/04-amoy-greenery.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/04-amoy-greenery.webp`,
-    alt: "多层绿色树冠与远处建筑",
+    alt: { zh: "多层绿色树冠与远处建筑", en: "Layered green tree canopies with architecture in the distance" },
   },
   {
-    title: "屋檐与云",
-    location: "厦门",
+    title: { zh: "屋檐与云", en: "Eaves and Clouds" },
+    location: { zh: "厦门", en: "Xiamen" },
     year: "2024",
     layout: "standard",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/05-amoy-roofline.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/05-amoy-roofline.webp`,
-    alt: "传统屋檐与白色云层形成几何线条",
+    alt: { zh: "传统屋檐与白色云层形成几何线条", en: "Traditional rooflines forming geometry against white clouds" },
   },
   {
-    title: "花田里的白山羊",
-    location: "苏州",
+    title: { zh: "花田里的白山羊", en: "White Goat in the Field" },
+    location: { zh: "苏州", en: "Suzhou" },
     year: "2024",
     layout: "wide",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/06-suzhou-goat.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/06-suzhou-goat.webp`,
-    alt: "白色山羊站在阳光下的花田中",
+    alt: { zh: "白色山羊站在阳光下的花田中", en: "A white goat standing in a sunlit flower field" },
   },
   {
-    title: "林间光线",
-    location: "滨湖森林公园",
+    title: { zh: "林间光线", en: "Light Through Trees" },
+    location: { zh: "滨湖森林公园", en: "Binhu Forest Park" },
     year: "2024",
     layout: "wide",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/07-forest-light.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/07-forest-light.webp`,
-    alt: "森林公园中光线穿过树木洒向步道",
+    alt: { zh: "森林公园中光线穿过树木洒向步道", en: "Sunlight passing through trees onto a park path" },
   },
   {
-    title: "荷叶深处",
-    location: "皖北",
+    title: { zh: "荷叶深处", en: "Inside the Lotus Leaves" },
+    location: { zh: "皖北", en: "Northern Anhui" },
     year: "2024",
     layout: "wide",
     thumb: `${import.meta.env.BASE_URL}photography/thumbs/08-lotus-leaves.webp`,
     src: `${import.meta.env.BASE_URL}photography/full/08-lotus-leaves.webp`,
-    alt: "大片荷叶中一朵粉色荷花含苞待放",
+    alt: { zh: "大片荷叶中一朵粉色荷花含苞待放", en: "A pink lotus bud among broad green leaves" },
   },
 ];
 
 const channels = [
   {
-    title: "哔哩哔哩",
+    title: { zh: "哔哩哔哩", en: "Bilibili" },
     english: "BILIBILI",
-    handle: "原始大陆PM",
-    note: "视频与影像作品",
+    handle: { zh: "原始大陆PM", en: "Original Mainland PM" },
+    note: { zh: "视频与影像作品", en: "Video and visual work" },
     href: "https://space.bilibili.com/136635542?spm_id_from=333.1007.0.0",
     icon: "bilibili",
     style: "bg-sky",
   },
   {
-    title: "小红书",
+    title: { zh: "小红书", en: "Rednote" },
     english: "REDNOTE",
-    handle: "原始大陆 PM",
-    note: "图文与生活观察",
+    handle: { zh: "原始大陆 PM", en: "Original Mainland PM" },
+    note: { zh: "图文与生活观察", en: "Visual notes and life observations" },
     href: "https://www.xiaohongshu.com/user/profile/641d94a7000000001f032ed3",
     icon: "rednote",
     style: "bg-blush",
   },
   {
-    title: "抖音",
+    title: { zh: "抖音", en: "Douyin" },
     english: "DOUYIN",
-    handle: "原始大陆 PM",
-    note: "短视频与即时表达",
+    handle: { zh: "原始大陆 PM", en: "Original Mainland PM" },
+    note: { zh: "短视频与即时表达", en: "Short-form video and timely expression" },
     href: "https://www.douyin.com/user/self",
     icon: "douyin",
     style: "bg-mint",
@@ -195,69 +460,125 @@ const channels = [
 
 const capabilities = [
   {
-    title: "品牌传播",
+    title: { zh: "品牌传播", en: "Brand Communications" },
     english: "Brand Communications",
-    copy: "围绕项目价值与组织行动，以新闻内容和媒体连接提升品牌认知。",
+    copy: {
+      zh: "围绕项目价值与组织行动，以新闻内容和媒体连接提升品牌认知。",
+      en: "Translate project value and organizational action into clear stories that strengthen brand recognition.",
+    },
   },
   {
-    title: "内容制作",
+    title: { zh: "内容制作", en: "Editorial & Visual" },
     english: "Editorial & Visual",
-    copy: "从选题、采访到摄影剪辑，形成稳定且可复用的内容资产。",
+    copy: {
+      zh: "从选题、采访到摄影剪辑，形成稳定且可复用的内容资产。",
+      en: "Build reusable content assets from topic planning, interviews, photography and editing.",
+    },
   },
   {
-    title: "舆情管理",
+    title: { zh: "舆情管理", en: "Issues Management" },
     english: "Issues Management",
-    copy: "参与研判、口径与平台沟通，在关键节点支持企业声誉管理。",
+    copy: {
+      zh: "参与研判、口径与平台沟通，在关键节点支持企业声誉管理。",
+      en: "Support reputation management through issue assessment, message alignment and platform communication.",
+    },
   },
 ];
 
 const experience = [
   {
-    range: "2022.04 - 至今",
-    role: "企业文化与传播专员",
-    company: "中铁四局集团有限公司第八工程分公司",
-    detail:
-      "负责品牌与市场传播、内容生产及大型活动执行；建立标准化内容流程和素材库，参与舆情研判、口径制定与媒体平台对接。",
+    range: { zh: "2022.04 - 至今", en: "Apr 2022 - Present" },
+    role: { zh: "企业文化与传播专员", en: "Corporate Culture and Communications Specialist" },
+    company: {
+      zh: "中铁四局集团有限公司第八工程分公司",
+      en: "China Railway Fourth Bureau Group, Eighth Engineering Co., Ltd.",
+    },
+    detail: {
+      zh: "负责品牌与市场传播、内容生产及大型活动执行；建立标准化内容流程和素材库，参与舆情研判、口径制定与媒体平台对接。",
+      en: "Lead brand and market communication, content production and major event execution; build standardized content workflows and asset libraries, while supporting issue assessment, messaging and media platform coordination.",
+    },
   },
 ];
 
 const credentials = [
   {
-    text: "厦门大学 · 新闻与传播硕士",
+    text: { zh: "厦门大学 · 新闻与传播硕士", en: "Xiamen University · M.A. in Journalism and Communication" },
     icon: `${import.meta.env.BASE_URL}education/xiamen-university.webp`,
-    alt: "厦门大学校徽",
+    alt: { zh: "厦门大学校徽", en: "Xiamen University emblem" },
   },
   {
-    text: "山西大学 · 历史学学士（辅修汉语言文学、哲学）",
+    text: {
+      zh: "山西大学 · 历史学学士（辅修汉语言文学、哲学）",
+      en: "Shanxi University · B.A. in History; minors in Chinese Language & Literature and Philosophy",
+    },
     icon: `${import.meta.env.BASE_URL}education/shanxi-university.webp`,
-    alt: "山西大学校徽",
+    alt: { zh: "山西大学校徽", en: "Shanxi University emblem" },
   },
-  { text: "安徽省摄影家协会会员" },
-  { text: "CET-6 / 普通话二级甲等" },
+  { text: { zh: "安徽省摄影家协会会员", en: "Member, Anhui Photographers Association" } },
+  { text: { zh: "CET-6 / 普通话二级甲等", en: "CET-6 / Mandarin Proficiency: Grade 2A" } },
 ];
 
 const resumeDownloads = [
   {
-    language: "中文简历",
-    title: "赵元坤个人简历",
-    copy: "适用于中文岗位、企业传播与品牌公关相关场景。",
+    language: { zh: "中文简历", en: "Chinese Resume" },
+    title: { zh: "赵元坤个人简历", en: "Zhao Yuankun Chinese Resume" },
+    copy: {
+      zh: "适用于中文岗位、企业传播与品牌公关相关场景。",
+      en: "For Chinese-language roles in corporate communications, branding and public relations.",
+    },
     href: `${import.meta.env.BASE_URL}resume/zhao-yuankun-resume-cn.pdf`,
-    fileName: "赵元坤个人简历.pdf",
+    fileName: { zh: "赵元坤个人简历.pdf", en: "Zhao Yuankun Chinese Resume.pdf" },
   },
   {
-    language: "English Resume",
-    title: "Yuankun Zhao (Jerry) Resume",
-    copy: "For English applications and international communication roles.",
+    language: { zh: "英文简历", en: "English Resume" },
+    title: { zh: "Yuankun Zhao (Jerry) Resume", en: "Yuankun Zhao (Jerry) Resume" },
+    copy: {
+      zh: "适用于英文申请及国际传播相关岗位。",
+      en: "For English applications and international communication roles.",
+    },
     href: `${import.meta.env.BASE_URL}resume/yuankun-zhao-jerry-resume-en.pdf`,
     fileName: "Yuankun Zhao (Jerry) Resume.pdf",
   },
 ];
+
+const expertise = [
+  { zh: "品牌公关与媒体", en: "Brand PR & Media Relations" },
+  { zh: "新闻摄影与采编", en: "News Photography & Editing" },
+  { zh: "视频脚本与剪辑", en: "Video Scripting & Editing" },
+  { zh: "舆情与声誉管理", en: "Issues & Reputation Management" },
+];
+
+function getInitialLanguage() {
+  if (typeof window === "undefined") return "zh";
+  return window.localStorage.getItem(languageStorageKey) === "en" ? "en" : "zh";
+}
+
+function text(value, lang) {
+  if (value && typeof value === "object" && !Array.isArray(value) && ("zh" in value || "en" in value)) {
+    return value[lang] ?? value.zh ?? value.en;
+  }
+
+  return value;
+}
 
 function Arrow() {
   return (
     <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 16 16">
       <path d="M2.5 8h10m-4-4 4 4-4 4" stroke="currentColor" strokeLinecap="round" />
     </svg>
+  );
+}
+
+function StackedLines({ lines }) {
+  return (
+    <>
+      {lines.map((line, index) => (
+        <span key={line}>
+          {line}
+          {index < lines.length - 1 && <br />}
+        </span>
+      ))}
+    </>
   );
 }
 
@@ -303,18 +624,34 @@ function Eyebrow({ children, light = false }) {
   );
 }
 
-function Header() {
+function LanguageToggle({ lang, onToggle, label }) {
+  return (
+    <button
+      aria-label={label}
+      className="font-en inline-flex items-center gap-1 rounded-full border border-white/12 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] text-muted transition hover:border-white/28 hover:text-cream sm:px-3"
+      onClick={onToggle}
+      type="button"
+    >
+      <span className={lang === "zh" ? "text-cream" : "text-muted"}>中文</span>
+      <span className="text-white/26">/</span>
+      <span className={lang === "en" ? "text-cream" : "text-muted"}>ENGLISH</span>
+    </button>
+  );
+}
+
+function Header({ lang, onToggleLanguage, t }) {
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-navy/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 min-[380px]:px-5 sm:px-8">
-        <Link aria-label="赵元坤，返回首页" className="flex items-baseline gap-3 text-cream" to="/">
-          <span className="font-display text-xl">赵元坤</span>
-          <span className="font-en hidden text-[11px] tracking-[0.22em] text-muted sm:block">
-            Jerry Jahnke
-          </span>
+      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-3 px-4 min-[380px]:px-5 sm:px-8">
+        <Link aria-label={t.header.homeLabel} className="flex shrink-0 items-baseline gap-3 text-cream" to="/">
+          <span className="font-display text-xl">{t.header.name}</span>
+          <span className="font-en hidden text-[11px] tracking-[0.22em] text-muted sm:block">{t.header.subName}</span>
         </Link>
-        <nav aria-label="主导航" className="flex items-center gap-3 text-[13px] min-[380px]:gap-5 min-[380px]:text-sm sm:gap-8">
-          {navigation.map(({ label, to }) => (
+        <nav
+          aria-label={t.header.navLabel}
+          className="flex items-center gap-2 text-[12px] min-[380px]:gap-4 min-[380px]:text-[13px] sm:gap-7 sm:text-sm"
+        >
+          {navigation.map(({ key, to }) => (
             <NavLink
               className={({ isActive }) =>
                 `relative py-2 transition ${isActive ? "text-cream" : "text-muted hover:text-cream"}`
@@ -325,19 +662,20 @@ function Header() {
             >
               {({ isActive }) => (
                 <>
-                  {label}
+                  {t.nav[key]}
                   {isActive && <span className="absolute inset-x-0 -bottom-1 h-px bg-cream" />}
                 </>
               )}
             </NavLink>
           ))}
+          <LanguageToggle label={t.languageToggleLabel} lang={lang} onToggle={onToggleLanguage} />
         </nav>
       </div>
     </header>
   );
 }
 
-function Footer() {
+function Footer({ lang, t }) {
   return (
     <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-navy">
       <img
@@ -349,8 +687,8 @@ function Footer() {
       />
       <div className="relative mx-auto flex min-h-56 max-w-6xl flex-col justify-between gap-8 px-5 py-12 text-sm text-muted sm:flex-row sm:items-end sm:px-8">
         <div>
-          <p className="font-display text-2xl text-cream">赵元坤</p>
-          <p className="mt-3">品牌公关 · 舆情管理 · 内容创作</p>
+          <p className="font-display text-2xl text-cream">{t.footer.name}</p>
+          <p className="mt-3">{t.footer.tagline}</p>
         </div>
         <div className="flex flex-wrap gap-x-7 gap-y-3">
           <a className="transition hover:text-cream" href="mailto:jerryzhao1998@163.com">
@@ -360,25 +698,25 @@ function Footer() {
             Bilibili
           </a>
           <a className="transition hover:text-cream" href={channels[1].href} rel="noreferrer" target="_blank">
-            小红书
+            {t.footer.rednote}
           </a>
           <a className="transition hover:text-cream" href={channels[2].href} rel="noreferrer" target="_blank">
-            抖音
+            {t.footer.douyin}
           </a>
-          <span>© 2026 Zhao Yuankun</span>
+          <span>{t.footer.copyright}</span>
         </div>
       </div>
     </footer>
   );
 }
 
-function Layout({ children }) {
+function Layout({ children, lang, onToggleLanguage, t }) {
   return (
     <>
       <ScrollToTop />
-      <Header />
+      <Header lang={lang} onToggleLanguage={onToggleLanguage} t={t} />
       <main className="pt-[72px]">{children}</main>
-      <Footer />
+      <Footer lang={lang} t={t} />
     </>
   );
 }
@@ -387,9 +725,7 @@ function ButtonLink({ children, secondary = false, to }) {
   return (
     <Link
       className={`group inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm transition ${
-        secondary
-          ? "border border-white/20 text-white hover:border-white/45"
-          : "bg-cream text-navy hover:bg-white"
+        secondary ? "border border-white/20 text-white hover:border-white/45" : "bg-cream text-navy hover:bg-white"
       }`}
       to={to}
     >
@@ -413,7 +749,7 @@ function PageIntro({ eyebrow, title, copy }) {
   );
 }
 
-function WorkIndex({ compact = false }) {
+function WorkIndex({ compact = false, lang }) {
   return (
     <div className={`divide-y divide-white/10 border-y border-white/10 ${compact ? "mt-14" : "mt-16"}`}>
       {featuredWork.map((item) => (
@@ -423,10 +759,10 @@ function WorkIndex({ compact = false }) {
           to={`/work?section=${item.number}`}
         >
           <p className="font-en text-xs tracking-[0.22em] text-muted">{item.number}</p>
-          <p className="text-sm text-muted">{item.label}</p>
+          <p className="text-sm text-muted">{text(item.label, lang)}</p>
           <div>
-            <h3 className="font-display text-[1.45rem] font-normal text-cream">{item.title}</h3>
-            {!compact && <p className="mt-2 max-w-xl leading-7 text-muted">{item.copy}</p>}
+            <h3 className="font-display text-[1.45rem] font-normal text-cream">{text(item.title, lang)}</h3>
+            {!compact && <p className="mt-2 max-w-xl leading-7 text-muted">{text(item.copy, lang)}</p>}
           </div>
           <span className="mt-2 text-cream transition group-hover:translate-x-1 sm:mt-0">
             <Arrow />
@@ -437,7 +773,7 @@ function WorkIndex({ compact = false }) {
   );
 }
 
-function HomePage() {
+function HomePage({ lang, t }) {
   return (
     <>
       <section className="relative overflow-hidden bg-navy text-cream">
@@ -449,33 +785,25 @@ function HomePage() {
         />
         <div className="relative mx-auto grid max-w-6xl gap-14 px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-24 lg:grid-cols-[1fr_17rem] lg:items-end">
           <div className="fade-up">
-            <Eyebrow light>Brand Communications / Editorial Practice</Eyebrow>
+            <Eyebrow light>{t.home.eyebrow}</Eyebrow>
             <h1 className="font-display balance mt-8 text-[2.65rem] font-normal leading-[1.17] tracking-[-0.055em] min-[370px]:text-[3.2rem] sm:text-[5.25rem]">
-              让品牌被看见，
-              <br />
-              让价值被理解。
+              <StackedLines lines={t.home.heroLines} />
             </h1>
-            <p className="mt-9 max-w-xl text-base leading-8 text-white/68 sm:text-lg">
-              专注品牌公关、舆情管理与内容策划。以新闻采编、影像创作与公共沟通，为企业和组织建立真实、清晰、经得起时间检验的表达。
-            </p>
+            <p className="mt-9 max-w-xl text-base leading-8 text-white/68 sm:text-lg">{t.home.intro}</p>
             <div className="mt-11 flex flex-wrap gap-4">
-              <ButtonLink to="/work">浏览作品</ButtonLink>
+              <ButtonLink to="/work">{t.home.workCta}</ButtonLink>
               <ButtonLink secondary to="/contact">
-                联系我
+                {t.home.contactCta}
               </ButtonLink>
             </div>
           </div>
           <div className="border-l border-white/18 pl-7 text-white/68">
-            <Eyebrow light>Current Focus</Eyebrow>
+            <Eyebrow light>{t.home.focusEyebrow}</Eyebrow>
             <p className="font-display mt-7 text-2xl leading-10 text-cream">
-              企业文化
-              <br />
-              与品牌传播
+              <StackedLines lines={t.home.focusTitle} />
             </p>
             <p className="mt-9 border-t border-white/14 pt-6 text-sm leading-7">
-              内容策略
-              <br />
-              媒体关系与舆情管理
+              <StackedLines lines={t.home.focusCopy} />
             </p>
           </div>
         </div>
@@ -484,14 +812,12 @@ function HomePage() {
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
         <div className="grid gap-10 md:grid-cols-[17rem_1fr]">
           <div>
-            <Eyebrow>Selected Work</Eyebrow>
-            <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">作品与影响</h2>
+            <Eyebrow>{t.home.selectedEyebrow}</Eyebrow>
+            <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">{t.home.selectedTitle}</h2>
           </div>
           <div>
-            <p className="max-w-xl text-lg leading-8 text-muted">
-              注重传播的信息如何建立连接桥梁，留下长期价值。
-            </p>
-            <WorkIndex compact />
+            <p className="max-w-xl text-lg leading-8 text-muted">{t.home.selectedCopy}</p>
+            <WorkIndex compact lang={lang} />
           </div>
         </div>
       </section>
@@ -499,17 +825,17 @@ function HomePage() {
       <section className="bg-navy text-cream">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 md:grid-cols-[17rem_1fr] sm:py-24">
           <div>
-            <Eyebrow light>Practice</Eyebrow>
-            <h2 className="font-display mt-6 text-4xl font-normal leading-tight">工作实践</h2>
+            <Eyebrow light>{t.home.practiceEyebrow}</Eyebrow>
+            <h2 className="font-display mt-6 text-4xl font-normal leading-tight">{t.home.practiceTitle}</h2>
           </div>
           <div className="divide-y divide-white/14 border-t border-white/14">
             {capabilities.map((item) => (
-              <article className="grid gap-4 py-8 sm:grid-cols-[13rem_1fr]" key={item.title}>
+              <article className="grid gap-4 py-8 sm:grid-cols-[13rem_1fr]" key={item.english}>
                 <div>
-                  <p className="font-display text-xl">{item.title}</p>
+                  <p className="font-display text-xl">{text(item.title, lang)}</p>
                   <p className="font-en mt-2 text-[11px] tracking-[0.18em] text-white/48">{item.english}</p>
                 </div>
-                <p className="max-w-lg leading-8 text-white/66">{item.copy}</p>
+                <p className="max-w-lg leading-8 text-white/66">{text(item.copy, lang)}</p>
               </article>
             ))}
           </div>
@@ -519,12 +845,12 @@ function HomePage() {
   );
 }
 
-function ArticleArchive() {
+function ArticleArchive({ lang, t }) {
   if (featuredArticles.length === 0) {
     return (
       <div className="mt-12 flex flex-col justify-between gap-7 border-y border-white/10 py-9 sm:flex-row sm:items-center">
-        <p className="font-display text-2xl font-normal text-cream">文章将在内容确认后陈列于此。</p>
-        <p className="shrink-0 text-sm text-muted">微信搜索公众号：原始大陆</p>
+        <p className="font-display text-2xl font-normal text-cream">{t.articles.emptyTitle}</p>
+        <p className="shrink-0 text-sm text-muted">{t.articles.emptyCopy}</p>
       </div>
     );
   }
@@ -535,7 +861,7 @@ function ArticleArchive() {
         <a
           className="group block border border-white/10 bg-navy-soft p-3 transition hover:border-white/26"
           href={article.href}
-          key={article.title}
+          key={article.href}
           rel="noreferrer"
           target="_blank"
         >
@@ -544,7 +870,7 @@ function ArticleArchive() {
             NO. {String(index + 1).padStart(2, "0")}
           </p>
           <h3 className="font-display mt-3 min-h-16 text-lg leading-7 text-cream transition group-hover:text-white">
-            {article.title}
+            {text(article.title, lang)}
           </h3>
         </a>
       ))}
@@ -552,7 +878,7 @@ function ArticleArchive() {
   );
 }
 
-function PhotographyArchive() {
+function PhotographyArchive({ lang, t }) {
   const cardClass = {
     large: "lg:col-span-7",
     portrait: "lg:col-span-5",
@@ -578,7 +904,7 @@ function PhotographyArchive() {
         >
           <div className="overflow-hidden border border-white/10 bg-navy-soft">
             <img
-              alt={photo.alt}
+              alt={text(photo.alt, lang)}
               className={`w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] ${
                 imageClass[photo.layout] ?? "aspect-[4/3]"
               }`}
@@ -589,13 +915,13 @@ function PhotographyArchive() {
           </div>
           <div className="mt-4 flex items-start justify-between gap-5 border-t border-white/10 pt-4">
             <div>
-              <h3 className="font-display text-2xl font-normal leading-tight text-cream">{photo.title}</h3>
+              <h3 className="font-display text-2xl font-normal leading-tight text-cream">{text(photo.title, lang)}</h3>
               <p className="font-en mt-2 text-[11px] tracking-[0.18em] text-muted">
-                {photo.location} / {photo.year}
+                {text(photo.location, lang)} / {photo.year}
               </p>
             </div>
             <span className="mt-1 inline-flex items-center gap-2 text-sm text-muted transition group-hover:text-cream">
-              查看大图 <Arrow />
+              {t.common.viewFullImage} <Arrow />
             </span>
           </div>
         </a>
@@ -604,7 +930,7 @@ function PhotographyArchive() {
   );
 }
 
-function PhotographyAlbumCard() {
+function PhotographyAlbumCard({ lang, t }) {
   const previewPhotos = photographyWorks.slice(0, 4);
 
   return (
@@ -614,16 +940,16 @@ function PhotographyAlbumCard() {
     >
       <div className="flex min-h-[24rem] flex-col justify-between p-8 sm:p-10">
         <div>
-          <p className="font-en text-[11px] tracking-[0.22em] text-muted">PHOTO FOLDER / {photographyWorks.length} WORKS</p>
-          <h3 className="font-display mt-7 max-w-xl text-4xl font-normal leading-tight text-cream sm:text-5xl">
-            像翻开一只摄影文件夹。
-          </h3>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-muted">
-            这里先保留一组拍立得式入口。进入后，再以完整画廊浏览城市、建筑、自然与日常现场。
+          <p className="font-en text-[11px] tracking-[0.22em] text-muted">
+            PHOTO FOLDER / {photographyWorks.length} WORKS
           </p>
+          <h3 className="font-display mt-7 max-w-xl text-4xl font-normal leading-tight text-cream sm:text-5xl">
+            {t.photoAlbum.title}
+          </h3>
+          <p className="mt-7 max-w-xl text-lg leading-8 text-muted">{t.photoAlbum.copy}</p>
         </div>
         <span className="mt-10 inline-flex w-fit items-center gap-3 rounded-full bg-cream px-6 py-3.5 text-sm text-navy transition group-hover:bg-white">
-          进入摄影文件夹 <Arrow />
+          {t.photoAlbum.cta} <Arrow />
         </span>
       </div>
 
@@ -646,7 +972,7 @@ function PhotographyAlbumCard() {
             >
               <img alt="" aria-hidden="true" className="aspect-[4/3] w-full object-cover" loading="lazy" src={photo.thumb} />
               <span className="font-en mt-3 block text-[10px] tracking-[0.2em] text-navy/55">
-                {String(index + 1).padStart(2, "0")} / {photo.location}
+                {String(index + 1).padStart(2, "0")} / {text(photo.location, lang)}
               </span>
             </div>
           );
@@ -656,18 +982,18 @@ function PhotographyAlbumCard() {
   );
 }
 
-function ChannelCard({ channel }) {
+function ChannelCard({ channel, lang, t }) {
   const contents = (
     <>
       <div className="flex items-start justify-between gap-5">
         <p className="font-en text-[11px] tracking-[0.24em] text-navy/60">{channel.english}</p>
         <PlatformIcon platform={channel.icon} />
       </div>
-      <h3 className="font-display mt-8 text-3xl font-normal text-navy">{channel.title}</h3>
-      <p className="mt-4 text-base text-navy">{channel.handle}</p>
-      <p className="mt-3 min-h-14 text-sm leading-7 text-navy/65">{channel.note}</p>
+      <h3 className="font-display mt-8 text-3xl font-normal text-navy">{text(channel.title, lang)}</h3>
+      <p className="mt-4 text-base text-navy">{text(channel.handle, lang)}</p>
+      <p className="mt-3 min-h-14 text-sm leading-7 text-navy/65">{text(channel.note, lang)}</p>
       <span className="mt-8 inline-flex items-center gap-3 text-sm text-navy">
-        {channel.href ? "进入主页" : "待提供公开链接"}
+        {channel.href ? t.common.enterProfile : t.common.pendingLink}
         {channel.href && <Arrow />}
       </span>
     </>
@@ -682,54 +1008,48 @@ function ChannelCard({ channel }) {
   );
 }
 
-function ResumeDownloadCard({ item }) {
+function ResumeDownloadCard({ item, lang, t }) {
   return (
     <a
       className="group flex min-h-64 flex-col justify-between border border-white/10 bg-navy-soft p-7 transition hover:-translate-y-1 hover:border-white/24"
-      download={item.fileName}
+      download={text(item.fileName, lang)}
       href={item.href}
     >
       <div>
-        <p className="font-en text-[11px] tracking-[0.22em] text-muted">{item.language}</p>
-        <h3 className="font-display mt-7 text-3xl font-normal leading-tight text-cream">{item.title}</h3>
-        <p className="mt-5 text-sm leading-7 text-muted">{item.copy}</p>
+        <p className="font-en text-[11px] tracking-[0.22em] text-muted">{text(item.language, lang)}</p>
+        <h3 className="font-display mt-7 text-3xl font-normal leading-tight text-cream">{text(item.title, lang)}</h3>
+        <p className="mt-5 text-sm leading-7 text-muted">{text(item.copy, lang)}</p>
       </div>
       <span className="mt-10 inline-flex items-center gap-3 text-sm text-cream transition group-hover:translate-x-1">
-        下载 PDF <Arrow />
+        {t.common.downloadPdf} <Arrow />
       </span>
     </a>
   );
 }
 
-function WorkPage() {
+function WorkPage({ lang, t }) {
   return (
     <>
       <section className="mx-auto max-w-6xl px-5 pb-16 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
-        <PageIntro
-          copy="从企业新闻传播到个人内容品牌，文字、影像与平台运营共同构成我的传播实践。"
-          eyebrow="Portfolio"
-          title="作品与影响"
-        />
+        <PageIntro copy={t.workPage.copy} eyebrow={t.workPage.eyebrow} title={t.workPage.title} />
       </section>
 
       <section className="border-t border-white/10" id="section-01">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[17rem_1fr]">
           <div>
-            <Eyebrow>01 / Corporate</Eyebrow>
-            <h2 className="font-display mt-7 text-4xl font-normal leading-tight text-cream">企业品牌传播</h2>
+            <Eyebrow>{t.workPage.corporateEyebrow}</Eyebrow>
+            <h2 className="font-display mt-7 text-4xl font-normal leading-tight text-cream">{t.workPage.corporateTitle}</h2>
           </div>
           <div>
             <h3 className="font-display max-w-2xl text-3xl font-normal leading-snug text-cream sm:text-4xl">
-              媒体传播与品牌内容体系
+              {t.workPage.corporateHeading}
             </h3>
-            <p className="mt-7 max-w-2xl text-lg leading-9 text-muted">
-              搭建并维护媒体联络机制，围绕重点项目与企业行动持续输出内容，多篇稿件刊发于新华社、人民日报等央媒与省市媒体，提升项目及企业品牌认知度。
-            </p>
+            <p className="mt-7 max-w-2xl text-lg leading-9 text-muted">{t.workPage.corporateCopy}</p>
             <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden bg-white/10 sm:grid-cols-4">
               {practiceMetrics.map((metric) => (
-                <div className={`${metric.style} px-5 py-7`} key={metric.label}>
-                  <p className="font-display text-3xl text-navy">{metric.value}</p>
-                  <p className="mt-3 text-sm leading-6 text-navy/65">{metric.label}</p>
+                <div className={`${metric.style} px-5 py-7`} key={text(metric.label, lang)}>
+                  <p className="font-display text-3xl text-navy">{text(metric.value, lang)}</p>
+                  <p className="mt-3 text-sm leading-6 text-navy/65">{text(metric.label, lang)}</p>
                 </div>
               ))}
             </div>
@@ -739,33 +1059,27 @@ function WorkPage() {
 
       <section className="border-t border-white/10 bg-paper" id="section-02">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <Eyebrow>02 / Editorial Column</Eyebrow>
+          <Eyebrow>{t.workPage.editorialEyebrow}</Eyebrow>
           <div className="mt-7 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">
-              原始大陆
-              <br />
-              精选文章专栏
+              <StackedLines lines={t.workPage.editorialTitle} />
             </h2>
-            <p className="max-w-lg leading-8 text-muted">
-              以下为已选出的八篇公众号文章，点击封面或标题即可进入微信原文。
-            </p>
+            <p className="max-w-lg leading-8 text-muted">{t.workPage.editorialCopy}</p>
           </div>
-          <ArticleArchive />
+          <ArticleArchive lang={lang} t={t} />
         </div>
       </section>
 
       <section className="border-t border-white/10" id="section-03">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <Eyebrow>03 / Platforms</Eyebrow>
+          <Eyebrow>{t.workPage.platformEyebrow}</Eyebrow>
           <div className="mt-7 grid gap-8 lg:grid-cols-[17rem_1fr]">
-            <h2 className="font-display text-4xl font-normal leading-tight text-cream">个人内容品牌</h2>
-            <p className="max-w-xl text-lg leading-8 text-muted">
-              在不同内容场域中，以视频、图文与短内容持续表达。按平台进入我的公开主页。
-            </p>
+            <h2 className="font-display text-4xl font-normal leading-tight text-cream">{t.workPage.platformTitle}</h2>
+            <p className="max-w-xl text-lg leading-8 text-muted">{t.workPage.platformCopy}</p>
           </div>
           <div className="mt-14 grid gap-4 md:grid-cols-3">
             {channels.map((channel) => (
-              <ChannelCard channel={channel} key={channel.title} />
+              <ChannelCard channel={channel} key={channel.english} lang={lang} t={t} />
             ))}
           </div>
         </div>
@@ -773,28 +1087,22 @@ function WorkPage() {
 
       <section className="border-t border-white/10 bg-paper" id="section-04">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <Eyebrow>04 / Photography</Eyebrow>
+          <Eyebrow>{t.workPage.photoEyebrow}</Eyebrow>
           <div className="mt-7 grid gap-8 lg:grid-cols-[17rem_1fr]">
-            <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">
-              个人摄影作品
-            </h2>
+            <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">{t.workPage.photoTitle}</h2>
             <div>
-              <p className="max-w-2xl text-lg leading-8 text-muted">
-                摄影是我观察现场的另一种方式：在建筑的线条、树影的层次和日常片刻中，寻找安静但有力量的秩序。
-              </p>
-              <p className="mt-5 text-sm leading-7 text-muted">
-                作品页先以相册入口呈现，进入摄影文件夹后再浏览完整图片集。
-              </p>
+              <p className="max-w-2xl text-lg leading-8 text-muted">{t.workPage.photoCopy}</p>
+              <p className="mt-5 text-sm leading-7 text-muted">{t.workPage.photoNote}</p>
             </div>
           </div>
-          <PhotographyAlbumCard />
+          <PhotographyAlbumCard lang={lang} t={t} />
         </div>
       </section>
     </>
   );
 }
 
-function PhotographyPage() {
+function PhotographyPage({ lang, t }) {
   return (
     <>
       <section className="mx-auto max-w-6xl px-5 pb-14 pt-16 sm:px-8 sm:pt-24">
@@ -802,95 +1110,85 @@ function PhotographyPage() {
           <span className="rotate-180">
             <Arrow />
           </span>
-          返回作品与影响
+          {t.photographyPage.back}
         </Link>
         <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_18rem] lg:items-end">
-          <PageIntro
-            copy="一组持续更新的个人摄影文件夹：城市、建筑、自然与日常现场，被整理为可慢慢翻看的视觉索引。"
-            eyebrow="Photography Folder"
-            title="个人摄影作品"
-          />
+          <PageIntro copy={t.photographyPage.copy} eyebrow={t.photographyPage.eyebrow} title={t.photographyPage.title} />
           <div className="border-t border-white/10 pt-6 text-sm leading-7 text-muted lg:border-l lg:border-t-0 lg:pl-7">
-            <p className="font-en text-[11px] tracking-[0.2em] text-muted">CURRENT ARCHIVE</p>
-            <p className="font-display mt-5 text-3xl text-cream">{photographyWorks.length} 张作品</p>
-            <p className="mt-5">点击任意照片可打开高清图。后续新增作品会继续进入这个文件夹。</p>
+            <p className="font-en text-[11px] tracking-[0.2em] text-muted">{t.photographyPage.archiveEyebrow}</p>
+            <p className="font-display mt-5 text-3xl text-cream">
+              {photographyWorks.length} {t.photographyPage.countLabel}
+            </p>
+            <p className="mt-5">{t.photographyPage.note}</p>
           </div>
         </div>
       </section>
 
       <section className="border-t border-white/10 bg-paper">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-          <PhotographyArchive />
+          <PhotographyArchive lang={lang} t={t} />
         </div>
       </section>
     </>
   );
 }
 
-function ResumePage() {
+function ResumePage({ lang, t }) {
   return (
     <section className="mx-auto max-w-6xl px-5 pb-8 pt-16 sm:px-8 sm:pt-24">
       <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-14 sm:flex-row sm:items-end">
-        <PageIntro
-          copy="品牌公关与企业传播从业者，拥有新闻传播研究背景与央企一线内容实践。"
-          eyebrow="Resume"
-          title="简历"
-        />
+        <PageIntro copy={t.resumePage.copy} eyebrow={t.resumePage.eyebrow} title={t.resumePage.title} />
         <button
           className="w-fit rounded-full border border-white/20 px-6 py-3.5 text-sm text-cream transition hover:bg-paper"
           onClick={() => window.print()}
           type="button"
         >
-          打印 / 保存简历
+          {t.resumePage.print}
         </button>
       </div>
 
       <div className="grid gap-10 border-b border-white/10 py-12 lg:grid-cols-[18rem_1fr] lg:gap-20">
         <div>
-          <Eyebrow>Downloads</Eyebrow>
-          <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">下载 PDF 简历</h2>
-          <p className="mt-6 text-sm leading-7 text-muted">
-            中英文简历统一放在网站资源目录中，后续替换同名 PDF 文件即可更新下载内容。
-          </p>
+          <Eyebrow>{t.resumePage.downloadsEyebrow}</Eyebrow>
+          <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">{t.resumePage.downloadsTitle}</h2>
+          <p className="mt-6 text-sm leading-7 text-muted">{t.resumePage.downloadsCopy}</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {resumeDownloads.map((item) => (
-            <ResumeDownloadCard item={item} key={item.href} />
+            <ResumeDownloadCard item={item} key={item.href} lang={lang} t={t} />
           ))}
         </div>
       </div>
 
       <div className="grid gap-14 py-14 lg:grid-cols-[18rem_1fr] lg:gap-20">
         <aside>
-          <Eyebrow>Profile</Eyebrow>
-          <p className="mt-7 text-[15px] leading-8 text-muted">
-            聚焦品牌传播、内容制作与舆情管理，以现场洞察和编辑能力，将工程项目、企业行动与公共价值准确表达。
-          </p>
+          <Eyebrow>{t.resumePage.profileEyebrow}</Eyebrow>
+          <p className="mt-7 text-[15px] leading-8 text-muted">{t.resumePage.profileCopy}</p>
           <div className="mt-12 space-y-4 border-t border-white/10 pt-7 text-sm leading-7 text-muted">
             {credentials.map((credential) => (
-              <p className="flex items-center gap-2.5" key={credential.text}>
+              <p className="flex items-center gap-2.5" key={text(credential.text, lang)}>
                 {credential.icon && (
                   <img
-                    alt={credential.alt}
+                    alt={text(credential.alt, lang)}
                     className="size-5 shrink-0 object-contain opacity-85"
                     loading="lazy"
                     src={credential.icon}
                   />
                 )}
-                <span>{credential.text}</span>
+                <span>{text(credential.text, lang)}</span>
               </p>
             ))}
           </div>
         </aside>
         <div>
-          <Eyebrow>Experience</Eyebrow>
+          <Eyebrow>{t.resumePage.experienceEyebrow}</Eyebrow>
           {experience.map((item) => (
-            <article className="mt-7 grid gap-5 border-t border-white/10 py-9 sm:grid-cols-[10rem_1fr]" key={item.company}>
-              <p className="font-en text-sm text-muted">{item.range}</p>
+            <article className="mt-7 grid gap-5 border-t border-white/10 py-9 sm:grid-cols-[10rem_1fr]" key={text(item.company, lang)}>
+              <p className="font-en text-sm text-muted">{text(item.range, lang)}</p>
               <div>
-                <h2 className="font-display text-2xl font-normal text-cream">{item.role}</h2>
-                <p className="mt-3 text-sm text-muted">{item.company}</p>
-                <p className="mt-6 max-w-2xl text-[15px] leading-8 text-muted">{item.detail}</p>
+                <h2 className="font-display text-2xl font-normal text-cream">{text(item.role, lang)}</h2>
+                <p className="mt-3 text-sm text-muted">{text(item.company, lang)}</p>
+                <p className="mt-6 max-w-2xl text-[15px] leading-8 text-muted">{text(item.detail, lang)}</p>
               </div>
             </article>
           ))}
@@ -898,11 +1196,11 @@ function ResumePage() {
       </div>
 
       <div className="border-t border-white/10 py-12">
-        <Eyebrow>Core Expertise</Eyebrow>
+        <Eyebrow>{t.resumePage.expertiseEyebrow}</Eyebrow>
         <div className="mt-8 grid gap-px overflow-hidden bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-          {["品牌公关与媒体", "新闻摄影与采编", "视频脚本与剪辑", "舆情与声誉管理"].map((skill) => (
-            <div className="bg-navy-soft px-6 py-9 font-display text-xl text-cream" key={skill}>
-              {skill}
+          {expertise.map((skill) => (
+            <div className="bg-navy-soft px-6 py-9 font-display text-xl text-cream" key={text(skill, lang)}>
+              {text(skill, lang)}
             </div>
           ))}
         </div>
@@ -911,21 +1209,15 @@ function ResumePage() {
   );
 }
 
-function ContactPage() {
+function ContactPage({ t }) {
   return (
     <section className="mx-auto max-w-6xl px-5 pb-8 pt-16 sm:px-8 sm:pt-24">
       <div className="grid gap-14 lg:grid-cols-[1fr_20rem] lg:items-start">
         <div>
           <PageIntro
-            copy="关注品牌传播、内容制作与公共关系。欢迎通过邮件交流工作，也欢迎在微信搜索公众号“原始大陆”阅读我的文字。"
-            eyebrow="Contact"
-            title={
-              <>
-                交流工作，
-                <br />
-                也分享内容。
-              </>
-            }
+            copy={t.contactPage.copy}
+            eyebrow={t.contactPage.eyebrow}
+            title={<StackedLines lines={t.contactPage.titleLines} />}
           />
           <a
             className="mt-11 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 text-sm text-navy transition hover:bg-white"
@@ -935,18 +1227,18 @@ function ContactPage() {
           </a>
         </div>
         <aside className="border-t border-white/10 pt-7 lg:mt-16">
-          <Eyebrow>Find Me</Eyebrow>
-          <p className="font-display mt-7 text-3xl text-cream">原始大陆</p>
-          <p className="mt-3 text-sm leading-7 text-muted">微信公众号 / 微信搜索关注</p>
+          <Eyebrow>{t.contactPage.findMe}</Eyebrow>
+          <p className="font-display mt-7 text-3xl text-cream">{t.contactPage.account}</p>
+          <p className="mt-3 text-sm leading-7 text-muted">{t.contactPage.accountNote}</p>
           <div className="mt-9 space-y-4 border-t border-white/10 pt-7 text-sm">
             <a className="flex justify-between text-cream" href={channels[0].href} rel="noreferrer" target="_blank">
-              哔哩哔哩 <Arrow />
+              Bilibili <Arrow />
             </a>
             <a className="flex justify-between text-cream" href={channels[1].href} rel="noreferrer" target="_blank">
-              小红书 <Arrow />
+              {t.footer.rednote} <Arrow />
             </a>
             <a className="flex justify-between text-cream" href={channels[2].href} rel="noreferrer" target="_blank">
-              抖音 <Arrow />
+              {t.footer.douyin} <Arrow />
             </a>
           </div>
         </aside>
@@ -955,28 +1247,45 @@ function ContactPage() {
   );
 }
 
-function NotFoundPage() {
+function NotFoundPage({ t }) {
   return (
     <section className="mx-auto flex min-h-[65vh] max-w-6xl flex-col items-center justify-center px-5 text-center">
       <Eyebrow>404</Eyebrow>
-      <h1 className="font-display mt-7 text-4xl text-cream">页面不存在</h1>
+      <h1 className="font-display mt-7 text-4xl text-cream">{t.notFound.title}</h1>
       <Link className="mt-10 text-sm text-cream" to="/">
-        返回首页
+        {t.notFound.back}
       </Link>
     </section>
   );
 }
 
 export default function App() {
+  const [lang, setLang] = useState(getInitialLanguage);
+  const t = siteCopy[lang];
+
+  useEffect(() => {
+    window.localStorage.setItem(languageStorageKey, lang);
+    document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+    document.documentElement.dataset.lang = lang;
+    document.title = t.siteTitle;
+
+    const description = document.querySelector('meta[name="description"]');
+    description?.setAttribute("content", t.siteDescription);
+  }, [lang, t]);
+
+  const toggleLanguage = () => {
+    setLang((current) => (current === "zh" ? "en" : "zh"));
+  };
+
   return (
-    <Layout>
+    <Layout lang={lang} onToggleLanguage={toggleLanguage} t={t}>
       <Routes>
-        <Route element={<HomePage />} path="/" />
-        <Route element={<WorkPage />} path="/work" />
-        <Route element={<PhotographyPage />} path="/photography" />
-        <Route element={<ResumePage />} path="/resume" />
-        <Route element={<ContactPage />} path="/contact" />
-        <Route element={<NotFoundPage />} path="*" />
+        <Route element={<HomePage lang={lang} t={t} />} path="/" />
+        <Route element={<WorkPage lang={lang} t={t} />} path="/work" />
+        <Route element={<PhotographyPage lang={lang} t={t} />} path="/photography" />
+        <Route element={<ResumePage lang={lang} t={t} />} path="/resume" />
+        <Route element={<ContactPage t={t} />} path="/contact" />
+        <Route element={<NotFoundPage t={t} />} path="*" />
       </Routes>
     </Layout>
   );

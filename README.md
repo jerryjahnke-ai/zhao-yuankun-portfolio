@@ -10,6 +10,7 @@ Key website content is maintained in `src/App.jsx`:
 - Selected work and external media links
 - Resume information
 - Social channels
+- Bilingual Chinese/English copy in `siteCopy` and localized data objects
 
 The brand mark image is stored at `public/brand-mark.webp`.
 
