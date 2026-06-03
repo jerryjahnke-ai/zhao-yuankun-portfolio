@@ -92,7 +92,6 @@ const siteCopy = {
       eyebrow: "Resume",
       title: "简历",
       copy: "品牌公关与企业传播从业者，拥有新闻传播研究背景与央企一线内容实践。",
-      print: "打印 / 保存简历",
       downloadsEyebrow: "Downloads",
       downloadsTitle: "下载 PDF 简历",
       downloadsCopy: "中英文简历统一放在网站资源目录中，后续替换同名 PDF 文件即可更新下载内容。",
@@ -203,7 +202,6 @@ const siteCopy = {
       eyebrow: "Resume",
       title: "Resume",
       copy: "A brand communications practitioner with a graduate background in journalism and communication, grounded in frontline corporate content work.",
-      print: "Print / Save Resume",
       downloadsEyebrow: "Downloads",
       downloadsTitle: "Download PDF Resume",
       downloadsCopy: "Chinese and English PDF resumes are stored in the site assets. Replace the same files to update future downloads.",
@@ -1138,13 +1136,6 @@ function ResumePage({ lang, t }) {
     <section className="mx-auto max-w-6xl px-5 pb-8 pt-16 sm:px-8 sm:pt-24">
       <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-14 sm:flex-row sm:items-end">
         <PageIntro copy={t.resumePage.copy} eyebrow={t.resumePage.eyebrow} title={t.resumePage.title} />
-        <button
-          className="w-fit rounded-full border border-white/20 px-6 py-3.5 text-sm text-cream transition hover:bg-paper"
-          onClick={() => window.print()}
-          type="button"
-        >
-          {t.resumePage.print}
-        </button>
       </div>
 
       <div className="grid gap-10 border-b border-white/10 py-12 lg:grid-cols-[18rem_1fr] lg:gap-20">
