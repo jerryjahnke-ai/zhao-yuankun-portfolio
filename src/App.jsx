@@ -223,7 +223,7 @@ const experience = [
 
 const credentials = [
   {
-    text: "厦门大学 · 新闻与传播硕士（2025）",
+    text: "厦门大学 · 新闻与传播硕士",
     icon: `${import.meta.env.BASE_URL}education/xiamen-university.webp`,
     alt: "厦门大学校徽",
   },
