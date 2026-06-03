@@ -222,10 +222,18 @@ const experience = [
 ];
 
 const credentials = [
-  "厦门大学 · 新闻与传播硕士（2025）",
-  "山西大学 · 历史学学士（辅修汉语言文学、哲学）",
-  "安徽省摄影家协会会员",
-  "CET-6 / 普通话二级甲等",
+  {
+    text: "厦门大学 · 新闻与传播硕士（2025）",
+    icon: `${import.meta.env.BASE_URL}education/xiamen-university.webp`,
+    alt: "厦门大学校徽",
+  },
+  {
+    text: "山西大学 · 历史学学士（辅修汉语言文学、哲学）",
+    icon: `${import.meta.env.BASE_URL}education/shanxi-university.webp`,
+    alt: "山西大学校徽",
+  },
+  { text: "安徽省摄影家协会会员" },
+  { text: "CET-6 / 普通话二级甲等" },
 ];
 
 const resumeDownloads = [
@@ -860,7 +868,17 @@ function ResumePage() {
           </p>
           <div className="mt-12 space-y-4 border-t border-white/10 pt-7 text-sm leading-7 text-muted">
             {credentials.map((credential) => (
-              <p key={credential}>{credential}</p>
+              <p className="flex items-center gap-2.5" key={credential.text}>
+                {credential.icon && (
+                  <img
+                    alt={credential.alt}
+                    className="size-5 shrink-0 object-contain opacity-85"
+                    loading="lazy"
+                    src={credential.icon}
+                  />
+                )}
+                <span>{credential.text}</span>
+              </p>
             ))}
           </div>
         </aside>
