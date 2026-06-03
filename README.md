@@ -27,6 +27,17 @@ The article column on the work page is populated from verified public-account ar
 
 Store article cover images in `public/articles/`. Social profile links can be edited in the `channels` list in the same file.
 
+### Resume Downloads
+
+The resume page download cards are driven by the `resumeDownloads` list in `src/App.jsx`.
+
+The public PDF files use stable paths so they can be replaced without changing page code:
+
+- `public/resume/zhao-yuankun-resume-cn.pdf`
+- `public/resume/yuankun-zhao-jerry-resume-en.pdf`
+
+To update either resume, replace the matching PDF file with the same file name. If the title, description or download filename should change, edit the corresponding object in `resumeDownloads`.
+
 ### Photography Gallery
 
 The photography entry on the work page links to the dedicated `/photography` gallery page. The gallery is driven by the `photographyWorks` list in `src/App.jsx`.

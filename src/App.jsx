@@ -228,6 +228,23 @@ const credentials = [
   "CET-6 / 普通话二级甲等",
 ];
 
+const resumeDownloads = [
+  {
+    language: "中文简历",
+    title: "赵元坤个人简历",
+    copy: "适用于中文岗位、企业传播与品牌公关相关场景。",
+    href: `${import.meta.env.BASE_URL}resume/zhao-yuankun-resume-cn.pdf`,
+    fileName: "赵元坤个人简历.pdf",
+  },
+  {
+    language: "English Resume",
+    title: "Yuankun Zhao (Jerry) Resume",
+    copy: "For English applications and international communication roles.",
+    href: `${import.meta.env.BASE_URL}resume/yuankun-zhao-jerry-resume-en.pdf`,
+    fileName: "Yuankun Zhao (Jerry) Resume.pdf",
+  },
+];
+
 function Arrow() {
   return (
     <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 16 16">
@@ -657,6 +674,25 @@ function ChannelCard({ channel }) {
   );
 }
 
+function ResumeDownloadCard({ item }) {
+  return (
+    <a
+      className="group flex min-h-64 flex-col justify-between border border-white/10 bg-navy-soft p-7 transition hover:-translate-y-1 hover:border-white/24"
+      download={item.fileName}
+      href={item.href}
+    >
+      <div>
+        <p className="font-en text-[11px] tracking-[0.22em] text-muted">{item.language}</p>
+        <h3 className="font-display mt-7 text-3xl font-normal leading-tight text-cream">{item.title}</h3>
+        <p className="mt-5 text-sm leading-7 text-muted">{item.copy}</p>
+      </div>
+      <span className="mt-10 inline-flex items-center gap-3 text-sm text-cream transition group-hover:translate-x-1">
+        下载 PDF <Arrow />
+      </span>
+    </a>
+  );
+}
+
 function WorkPage() {
   return (
     <>
@@ -799,6 +835,21 @@ function ResumePage() {
         >
           打印 / 保存简历
         </button>
+      </div>
+
+      <div className="grid gap-10 border-b border-white/10 py-12 lg:grid-cols-[18rem_1fr] lg:gap-20">
+        <div>
+          <Eyebrow>Downloads</Eyebrow>
+          <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">下载 PDF 简历</h2>
+          <p className="mt-6 text-sm leading-7 text-muted">
+            中英文简历统一放在网站资源目录中，后续替换同名 PDF 文件即可更新下载内容。
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {resumeDownloads.map((item) => (
+            <ResumeDownloadCard item={item} key={item.href} />
+          ))}
+        </div>
       </div>
 
       <div className="grid gap-14 py-14 lg:grid-cols-[18rem_1fr] lg:gap-20">
