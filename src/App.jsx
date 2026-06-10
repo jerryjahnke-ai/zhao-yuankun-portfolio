@@ -626,7 +626,7 @@ function LanguageToggle({ lang, onToggle, label }) {
   return (
     <button
       aria-label={label}
-      className="font-en inline-flex items-center gap-1 rounded-full border border-white/12 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] text-muted transition hover:border-white/28 hover:text-cream sm:px-3"
+      className="font-en inline-flex items-center gap-1 rounded-full border border-white/12 bg-white/[0.03] px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] text-muted transition hover:border-white/28 hover:bg-white/[0.06] hover:text-cream sm:px-3"
       onClick={onToggle}
       type="button"
     >
@@ -639,7 +639,7 @@ function LanguageToggle({ lang, onToggle, label }) {
 
 function Header({ lang, onToggleLanguage, t }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-navy/90 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/72 backdrop-blur-2xl">
       <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-3 px-4 min-[380px]:px-5 sm:px-8">
         <Link aria-label={t.header.homeLabel} className="flex shrink-0 items-baseline gap-3 text-cream" to="/">
           <span className="font-display text-xl">{t.header.name}</span>
@@ -675,11 +675,11 @@ function Header({ lang, onToggleLanguage, t }) {
 
 function Footer({ lang, t }) {
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-navy">
+    <footer className="relative mt-24 overflow-hidden border-t border-white/10 bg-black">
       <img
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-44 -right-28 hidden w-[32rem] opacity-[0.07] invert mix-blend-screen sm:block"
+        className="pointer-events-none absolute -bottom-44 -right-28 hidden w-[32rem] opacity-[0.06] invert mix-blend-screen sm:block"
         loading="lazy"
         src={brandMark}
       />
@@ -722,8 +722,10 @@ function Layout({ children, lang, onToggleLanguage, t }) {
 function ButtonLink({ children, secondary = false, to }) {
   return (
     <Link
-      className={`group inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm transition ${
-        secondary ? "border border-white/20 text-white hover:border-white/45" : "bg-cream text-navy hover:bg-white"
+      className={`group inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm transition duration-300 ${
+        secondary
+          ? "border border-white/18 bg-white/[0.02] text-white hover:border-white/40 hover:bg-white/[0.05]"
+          : "bg-cream text-navy shadow-[0_18px_50px_rgba(247,245,240,0.13)] hover:bg-white"
       }`}
       to={to}
     >
@@ -739,20 +741,20 @@ function PageIntro({ eyebrow, title, copy }) {
   return (
     <div className="max-w-3xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h1 className="font-display balance mt-7 text-5xl font-normal leading-[1.18] tracking-[-0.05em] text-cream sm:text-7xl">
+      <h1 className="font-display balance mt-7 text-5xl font-normal leading-[1.12] tracking-[-0.055em] text-cream sm:text-7xl">
         {title}
       </h1>
-      {copy && <p className="mt-7 max-w-2xl text-lg leading-8 text-muted">{copy}</p>}
+      {copy && <p className="mt-8 max-w-2xl text-lg leading-9 text-muted">{copy}</p>}
     </div>
   );
 }
 
 function WorkIndex({ compact = false, lang }) {
   return (
-    <div className={`divide-y divide-white/10 border-y border-white/10 ${compact ? "mt-14" : "mt-16"}`}>
+    <div className={`overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.025] ${compact ? "mt-14" : "mt-16"}`}>
       {featuredWork.map((item) => (
         <Link
-          className="group grid gap-4 py-7 transition sm:grid-cols-[4rem_11rem_1fr_auto] sm:items-center sm:gap-6"
+          className="group grid gap-4 border-b border-white/8 px-5 py-7 transition last:border-b-0 hover:bg-white/[0.045] sm:grid-cols-[4rem_11rem_1fr_auto] sm:items-center sm:gap-6 sm:px-7"
           key={item.number}
           to={`/work?section=${item.number}`}
         >
@@ -774,20 +776,25 @@ function WorkIndex({ compact = false, lang }) {
 function HomePage({ lang, t }) {
   return (
     <>
-      <section className="relative overflow-hidden bg-navy text-cream">
+      <section className="relative overflow-hidden bg-black text-cream">
+        <div aria-hidden="true" className="hairline-grid pointer-events-none absolute inset-x-0 top-0 h-full opacity-50" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-16 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-cream/[0.045] blur-3xl"
+        />
         <img
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute -right-48 top-2 hidden w-[44rem] opacity-[0.045] invert md:block"
+          className="pointer-events-none absolute -right-52 top-8 hidden w-[44rem] opacity-[0.04] invert md:block"
           src={brandMark}
         />
-        <div className="relative mx-auto grid max-w-6xl gap-14 px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-24 lg:grid-cols-[1fr_17rem] lg:items-end">
+        <div className="relative mx-auto grid max-w-6xl gap-14 px-5 pb-24 pt-20 sm:px-8 sm:pb-32 sm:pt-28 lg:grid-cols-[1fr_20rem] lg:items-end">
           <div className="fade-up">
             <Eyebrow light>{t.home.eyebrow}</Eyebrow>
-            <h1 className="font-display balance mt-8 text-[2.65rem] font-normal leading-[1.17] tracking-[-0.055em] min-[370px]:text-[3.2rem] sm:text-[5.25rem]">
+            <h1 className="font-display balance mt-8 max-w-5xl text-[2.9rem] font-normal leading-[1.08] tracking-[-0.065em] min-[370px]:text-[3.35rem] sm:text-[5.8rem]">
               <StackedLines lines={t.home.heroLines} />
             </h1>
-            <p className="mt-9 max-w-xl text-base leading-8 text-white/68 sm:text-lg">{t.home.intro}</p>
+            <p className="mt-10 max-w-2xl text-base leading-8 text-white/70 sm:text-lg sm:leading-9">{t.home.intro}</p>
             <div className="mt-11 flex flex-wrap gap-4">
               <ButtonLink to="/work">{t.home.workCta}</ButtonLink>
               <ButtonLink secondary to="/contact">
@@ -795,7 +802,7 @@ function HomePage({ lang, t }) {
               </ButtonLink>
             </div>
           </div>
-          <div className="border-l border-white/18 pl-7 text-white/68">
+          <div className="surface rounded-[2rem] p-7 text-white/68">
             <Eyebrow light>{t.home.focusEyebrow}</Eyebrow>
             <p className="font-display mt-7 text-2xl leading-10 text-cream">
               <StackedLines lines={t.home.focusTitle} />
@@ -811,7 +818,9 @@ function HomePage({ lang, t }) {
         <div className="grid gap-10 md:grid-cols-[17rem_1fr]">
           <div>
             <Eyebrow>{t.home.selectedEyebrow}</Eyebrow>
-            <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">{t.home.selectedTitle}</h2>
+            <h2 className="font-display mt-6 text-4xl font-normal leading-tight tracking-[-0.035em] text-cream">
+              {t.home.selectedTitle}
+            </h2>
           </div>
           <div>
             <p className="max-w-xl text-lg leading-8 text-muted">{t.home.selectedCopy}</p>
@@ -820,15 +829,15 @@ function HomePage({ lang, t }) {
         </div>
       </section>
 
-      <section className="bg-navy text-cream">
+      <section className="border-y border-white/10 bg-paper text-cream">
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 md:grid-cols-[17rem_1fr] sm:py-24">
           <div>
             <Eyebrow light>{t.home.practiceEyebrow}</Eyebrow>
             <h2 className="font-display mt-6 text-4xl font-normal leading-tight">{t.home.practiceTitle}</h2>
           </div>
-          <div className="divide-y divide-white/14 border-t border-white/14">
+          <div className="grid gap-3">
             {capabilities.map((item) => (
-              <article className="grid gap-4 py-8 sm:grid-cols-[13rem_1fr]" key={item.english}>
+              <article className="surface grid gap-5 rounded-[1.5rem] p-6 sm:grid-cols-[13rem_1fr]" key={item.english}>
                 <div>
                   <p className="font-display text-xl">{text(item.title, lang)}</p>
                   <p className="font-en mt-2 text-[11px] tracking-[0.18em] text-white/48">{item.english}</p>
@@ -854,16 +863,23 @@ function ArticleArchive({ lang, t }) {
   }
 
   return (
-    <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {featuredArticles.map((article, index) => (
         <a
-          className="group block border border-white/10 bg-navy-soft p-3 transition hover:border-white/26"
+          className="group block overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.035] p-3 transition duration-500 hover:-translate-y-1 hover:border-white/26 hover:bg-white/[0.055]"
           href={article.href}
           key={article.href}
           rel="noreferrer"
           target="_blank"
         >
-          <img alt="" className="aspect-[16/10] w-full object-cover" loading="lazy" src={article.cover} />
+          <div className="overflow-hidden rounded-[1rem] bg-white/5">
+            <img
+              alt=""
+              className="image-lift aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+              loading="lazy"
+              src={article.cover}
+            />
+          </div>
           <p className="font-en mt-5 text-[11px] tracking-[0.2em] text-muted">
             NO. {String(index + 1).padStart(2, "0")}
           </p>
@@ -891,7 +907,7 @@ function PhotographyArchive({ lang, t }) {
   };
 
   return (
-    <div className="mt-14 grid gap-x-5 gap-y-11 lg:grid-cols-12">
+    <div className="mt-14 grid gap-x-5 gap-y-12 lg:grid-cols-12">
       {photographyWorks.map((photo, index) => (
         <a
           className={`group block ${cardClass[photo.layout] ?? "lg:col-span-4"}`}
@@ -900,10 +916,10 @@ function PhotographyArchive({ lang, t }) {
           rel="noreferrer"
           target="_blank"
         >
-          <div className="overflow-hidden border border-white/10 bg-navy-soft">
+          <div className="soft-ring overflow-hidden rounded-[1.5rem] bg-navy-soft">
             <img
               alt={text(photo.alt, lang)}
-              className={`w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] ${
+              className={`image-lift w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035] ${
                 imageClass[photo.layout] ?? "aspect-[4/3]"
               }`}
               decoding="async"
@@ -911,7 +927,7 @@ function PhotographyArchive({ lang, t }) {
               src={photo.thumb}
             />
           </div>
-          <div className="mt-4 flex items-start justify-between gap-5 border-t border-white/10 pt-4">
+          <div className="mt-5 flex items-start justify-between gap-5 border-t border-white/10 pt-4">
             <div>
               <h3 className="font-display text-2xl font-normal leading-tight text-cream">{text(photo.title, lang)}</h3>
               <p className="font-en mt-2 text-[11px] tracking-[0.18em] text-muted">
@@ -933,26 +949,26 @@ function PhotographyAlbumCard({ lang, t }) {
 
   return (
     <Link
-      className="group mt-14 grid overflow-hidden border border-white/10 bg-navy-soft transition hover:border-white/24 lg:grid-cols-[1fr_26rem]"
+      className="surface group mt-14 grid overflow-hidden rounded-[2rem] transition hover:border-white/24 lg:grid-cols-[1fr_26rem]"
       to="/photography"
     >
       <div className="flex min-h-[24rem] flex-col justify-between p-8 sm:p-10">
         <div>
-          <p className="font-en text-[11px] tracking-[0.22em] text-muted">
+          <p className="text-caps text-muted">
             PHOTO FOLDER / {photographyWorks.length} WORKS
           </p>
-          <h3 className="font-display mt-7 max-w-xl text-4xl font-normal leading-tight text-cream sm:text-5xl">
+          <h3 className="font-display mt-7 max-w-xl text-4xl font-normal leading-tight tracking-[-0.035em] text-cream sm:text-5xl">
             {t.photoAlbum.title}
           </h3>
           <p className="mt-7 max-w-xl text-lg leading-8 text-muted">{t.photoAlbum.copy}</p>
         </div>
-        <span className="mt-10 inline-flex w-fit items-center gap-3 rounded-full bg-cream px-6 py-3.5 text-sm text-navy transition group-hover:bg-white">
+        <span className="mt-10 inline-flex w-fit items-center gap-3 rounded-full bg-cream px-6 py-3.5 text-sm text-navy shadow-[0_18px_50px_rgba(247,245,240,0.12)] transition group-hover:bg-white">
           {t.photoAlbum.cta} <Arrow />
         </span>
       </div>
 
       <div className="relative min-h-[24rem] overflow-hidden border-t border-white/10 bg-cream/95 lg:border-l lg:border-t-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.8),transparent_34%),linear-gradient(135deg,rgba(193,225,255,0.45),rgba(245,214,218,0.46),rgba(209,236,218,0.34))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.86),transparent_34%),linear-gradient(135deg,rgba(193,225,255,0.35),rgba(245,214,218,0.42),rgba(209,236,218,0.3))]" />
         {previewPhotos.map((photo, index) => {
           const frames = [
             "left-[11%] top-[18%] z-20 -rotate-6",
@@ -998,18 +1014,23 @@ function ChannelCard({ channel, lang, t }) {
   );
 
   return channel.href ? (
-    <a className={`group block p-8 transition hover:-translate-y-1 ${channel.style}`} href={channel.href} rel="noreferrer" target="_blank">
+    <a
+      className={`group block min-h-80 rounded-[1.5rem] p-8 transition duration-500 hover:-translate-y-1 ${channel.style}`}
+      href={channel.href}
+      rel="noreferrer"
+      target="_blank"
+    >
       {contents}
     </a>
   ) : (
-    <div className={`p-8 ${channel.style}`}>{contents}</div>
+    <div className={`min-h-80 rounded-[1.5rem] p-8 ${channel.style}`}>{contents}</div>
   );
 }
 
 function ResumeDownloadCard({ item, lang, t }) {
   return (
     <a
-      className="group flex min-h-64 flex-col justify-between border border-white/10 bg-navy-soft p-7 transition hover:-translate-y-1 hover:border-white/24"
+      className="surface group flex min-h-64 flex-col justify-between rounded-[1.6rem] p-7 transition duration-500 hover:-translate-y-1 hover:border-white/24"
       download={text(item.fileName, lang)}
       href={item.href}
     >
@@ -1033,19 +1054,21 @@ function WorkPage({ lang, t }) {
       </section>
 
       <section className="border-t border-white/10" id="section-01">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[17rem_1fr]">
+        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[17rem_1fr]">
           <div>
             <Eyebrow>{t.workPage.corporateEyebrow}</Eyebrow>
-            <h2 className="font-display mt-7 text-4xl font-normal leading-tight text-cream">{t.workPage.corporateTitle}</h2>
+            <h2 className="font-display mt-7 text-4xl font-normal leading-tight tracking-[-0.035em] text-cream">
+              {t.workPage.corporateTitle}
+            </h2>
           </div>
           <div>
             <h3 className="font-display max-w-2xl text-3xl font-normal leading-snug text-cream sm:text-4xl">
               {t.workPage.corporateHeading}
             </h3>
             <p className="mt-7 max-w-2xl text-lg leading-9 text-muted">{t.workPage.corporateCopy}</p>
-            <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden bg-white/10 sm:grid-cols-4">
+            <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {practiceMetrics.map((metric) => (
-                <div className={`${metric.style} px-5 py-7`} key={text(metric.label, lang)}>
+                <div className={`${metric.style} rounded-[1.25rem] px-5 py-7`} key={text(metric.label, lang)}>
                   <p className="font-display text-3xl text-navy">{text(metric.value, lang)}</p>
                   <p className="mt-3 text-sm leading-6 text-navy/65">{text(metric.label, lang)}</p>
                 </div>
@@ -1056,10 +1079,10 @@ function WorkPage({ lang, t }) {
       </section>
 
       <section className="border-t border-white/10 bg-paper" id="section-02">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <Eyebrow>{t.workPage.editorialEyebrow}</Eyebrow>
           <div className="mt-7 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">
+            <h2 className="font-display text-4xl font-normal leading-tight tracking-[-0.035em] text-cream sm:text-5xl">
               <StackedLines lines={t.workPage.editorialTitle} />
             </h2>
             <p className="max-w-lg leading-8 text-muted">{t.workPage.editorialCopy}</p>
@@ -1069,10 +1092,12 @@ function WorkPage({ lang, t }) {
       </section>
 
       <section className="border-t border-white/10" id="section-03">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <Eyebrow>{t.workPage.platformEyebrow}</Eyebrow>
           <div className="mt-7 grid gap-8 lg:grid-cols-[17rem_1fr]">
-            <h2 className="font-display text-4xl font-normal leading-tight text-cream">{t.workPage.platformTitle}</h2>
+            <h2 className="font-display text-4xl font-normal leading-tight tracking-[-0.035em] text-cream">
+              {t.workPage.platformTitle}
+            </h2>
             <p className="max-w-xl text-lg leading-8 text-muted">{t.workPage.platformCopy}</p>
           </div>
           <div className="mt-14 grid gap-4 md:grid-cols-3">
@@ -1084,10 +1109,12 @@ function WorkPage({ lang, t }) {
       </section>
 
       <section className="border-t border-white/10 bg-paper" id="section-04">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <Eyebrow>{t.workPage.photoEyebrow}</Eyebrow>
           <div className="mt-7 grid gap-8 lg:grid-cols-[17rem_1fr]">
-            <h2 className="font-display text-4xl font-normal leading-tight text-cream sm:text-5xl">{t.workPage.photoTitle}</h2>
+            <h2 className="font-display text-4xl font-normal leading-tight tracking-[-0.035em] text-cream sm:text-5xl">
+              {t.workPage.photoTitle}
+            </h2>
             <div>
               <p className="max-w-2xl text-lg leading-8 text-muted">{t.workPage.photoCopy}</p>
               <p className="mt-5 text-sm leading-7 text-muted">{t.workPage.photoNote}</p>
@@ -1112,7 +1139,7 @@ function PhotographyPage({ lang, t }) {
         </Link>
         <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_18rem] lg:items-end">
           <PageIntro copy={t.photographyPage.copy} eyebrow={t.photographyPage.eyebrow} title={t.photographyPage.title} />
-          <div className="border-t border-white/10 pt-6 text-sm leading-7 text-muted lg:border-l lg:border-t-0 lg:pl-7">
+          <div className="surface rounded-[1.5rem] p-6 text-sm leading-7 text-muted">
             <p className="font-en text-[11px] tracking-[0.2em] text-muted">{t.photographyPage.archiveEyebrow}</p>
             <p className="font-display mt-5 text-3xl text-cream">
               {photographyWorks.length} {t.photographyPage.countLabel}
@@ -1134,14 +1161,16 @@ function PhotographyPage({ lang, t }) {
 function ResumePage({ lang, t }) {
   return (
     <section className="mx-auto max-w-6xl px-5 pb-8 pt-16 sm:px-8 sm:pt-24">
-      <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-14 sm:flex-row sm:items-end">
+      <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-16 sm:flex-row sm:items-end">
         <PageIntro copy={t.resumePage.copy} eyebrow={t.resumePage.eyebrow} title={t.resumePage.title} />
       </div>
 
-      <div className="grid gap-10 border-b border-white/10 py-12 lg:grid-cols-[18rem_1fr] lg:gap-20">
+      <div className="grid gap-10 border-b border-white/10 py-14 lg:grid-cols-[18rem_1fr] lg:gap-20">
         <div>
           <Eyebrow>{t.resumePage.downloadsEyebrow}</Eyebrow>
-          <h2 className="font-display mt-6 text-4xl font-normal leading-tight text-cream">{t.resumePage.downloadsTitle}</h2>
+          <h2 className="font-display mt-6 text-4xl font-normal leading-tight tracking-[-0.035em] text-cream">
+            {t.resumePage.downloadsTitle}
+          </h2>
           <p className="mt-6 text-sm leading-7 text-muted">{t.resumePage.downloadsCopy}</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
@@ -1155,7 +1184,7 @@ function ResumePage({ lang, t }) {
         <aside>
           <Eyebrow>{t.resumePage.profileEyebrow}</Eyebrow>
           <p className="mt-7 text-[15px] leading-8 text-muted">{t.resumePage.profileCopy}</p>
-          <div className="mt-12 space-y-4 border-t border-white/10 pt-7 text-sm leading-7 text-muted">
+          <div className="surface mt-12 space-y-4 rounded-[1.5rem] p-6 text-sm leading-7 text-muted">
             {credentials.map((credential) => (
               <p className="flex items-center gap-2.5" key={text(credential.text, lang)}>
                 {credential.icon && (
@@ -1174,7 +1203,7 @@ function ResumePage({ lang, t }) {
         <div>
           <Eyebrow>{t.resumePage.experienceEyebrow}</Eyebrow>
           {experience.map((item) => (
-            <article className="mt-7 grid gap-5 border-t border-white/10 py-9 sm:grid-cols-[10rem_1fr]" key={text(item.company, lang)}>
+            <article className="mt-5 grid gap-5 border-t border-white/10 py-9 sm:grid-cols-[10rem_1fr]" key={text(item.company, lang)}>
               <p className="font-en text-sm text-muted">{text(item.range, lang)}</p>
               <div>
                 <h2 className="font-display text-2xl font-normal text-cream">{text(item.role, lang)}</h2>
@@ -1188,9 +1217,9 @@ function ResumePage({ lang, t }) {
 
       <div className="border-t border-white/10 py-12">
         <Eyebrow>{t.resumePage.expertiseEyebrow}</Eyebrow>
-        <div className="mt-8 grid gap-px overflow-hidden bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {expertise.map((skill) => (
-            <div className="bg-navy-soft px-6 py-9 font-display text-xl text-cream" key={text(skill, lang)}>
+            <div className="surface rounded-[1.35rem] px-6 py-9 font-display text-xl text-cream" key={text(skill, lang)}>
               {text(skill, lang)}
             </div>
           ))}
@@ -1211,13 +1240,13 @@ function ContactPage({ t }) {
             title={<StackedLines lines={t.contactPage.titleLines} />}
           />
           <a
-            className="mt-11 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 text-sm text-navy transition hover:bg-white"
+            className="mt-11 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 text-sm text-navy shadow-[0_18px_50px_rgba(247,245,240,0.13)] transition hover:bg-white"
             href="mailto:jerryzhao1998@163.com?subject=Website%20Enquiry"
           >
             jerryzhao1998@163.com <Arrow />
           </a>
         </div>
-        <aside className="border-t border-white/10 pt-7 lg:mt-16">
+        <aside className="surface rounded-[1.75rem] p-7 lg:mt-16">
           <Eyebrow>{t.contactPage.findMe}</Eyebrow>
           <p className="font-display mt-7 text-3xl text-cream">{t.contactPage.account}</p>
           <p className="mt-3 text-sm leading-7 text-muted">{t.contactPage.accountNote}</p>

@@ -29,14 +29,16 @@
   --font-display: "Source Han Serif CN", "Noto Serif SC", "Songti SC", serif;
   --font-en: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --color-navy: #000000;
-  --color-navy-soft: #101010;
+  --color-navy-soft: #0d0d0d;
   --color-cream: #f7f5f0;
-  --color-paper: #080808;
+  --color-paper: #070707;
   --color-muted: #aba7a0;
   --color-accent: #e7e2d9;
-  --color-sky: #eceff0;
-  --color-blush: #f2ece8;
-  --color-mint: #ebefeb;
+  --color-sky: #e8eef3;
+  --color-blush: #f0e7e3;
+  --color-mint: #e7ede7;
+  --color-graphite: #151515;
+  --color-line: rgba(255, 255, 255, 0.1);
 }
 
 :root {
@@ -57,7 +59,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: var(--color-navy);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.055), transparent 28rem),
+    radial-gradient(circle at 88% 8%, rgba(231, 226, 217, 0.055), transparent 24rem),
+    linear-gradient(180deg, #050505 0%, #000 42%, #050505 100%);
+  background-attachment: fixed;
 }
 
 #root {
@@ -98,6 +104,40 @@ html[data-lang="en"] .font-display {
 
 .balance {
   text-wrap: balance;
+}
+
+.surface {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(13, 13, 13, 0.82);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.hairline-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 4.25rem 4.25rem;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+.image-lift {
+  filter: saturate(0.92) contrast(1.04);
+}
+
+.soft-ring {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 24px 70px rgba(0, 0, 0, 0.32);
+}
+
+.text-caps {
+  font-family: var(--font-en);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
 .fade-up {
