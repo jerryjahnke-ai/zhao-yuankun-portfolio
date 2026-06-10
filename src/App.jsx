@@ -75,7 +75,7 @@ const siteCopy = {
       photoNote: "作品页先以相册入口呈现，进入摄影文件夹后再浏览完整图片集。",
     },
     photoAlbum: {
-      title: "镜头记录过去，故事开启未来",
+      title: ["镜头记录过去", "故事开启未来"],
       copy: "这里先保留一组拍立得式入口。进入后，再以完整画廊浏览城市、建筑、自然与日常现场。",
       cta: "进入摄影文件夹",
     },
@@ -185,7 +185,7 @@ const siteCopy = {
       photoNote: "The work page keeps this as an album entry; the full image set lives inside the photography folder.",
     },
     photoAlbum: {
-      title: "The lens records the past; stories open the future.",
+      title: ["The lens records the past", "Stories open the future"],
       copy: "A Polaroid-style entry comes first. Inside, the full gallery gathers city, architecture, nature and everyday scenes.",
       cta: "Open Photography Folder",
     },
@@ -958,9 +958,8 @@ function PhotographyAlbumCard({ lang, t }) {
             PHOTO FOLDER / {photographyWorks.length} WORKS
           </p>
           <h3 className="font-display mt-7 max-w-xl text-4xl font-normal leading-tight tracking-[-0.035em] text-cream sm:text-5xl">
-            {t.photoAlbum.title}
+            <StackedLines lines={t.photoAlbum.title} />
           </h3>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-muted">{t.photoAlbum.copy}</p>
         </div>
         <span className="mt-10 inline-flex w-fit items-center gap-3 rounded-full bg-cream px-6 py-3.5 text-sm text-navy shadow-[0_18px_50px_rgba(247,245,240,0.12)] transition group-hover:bg-white">
           {t.photoAlbum.cta} <Arrow />
