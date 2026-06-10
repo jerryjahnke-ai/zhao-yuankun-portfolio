@@ -75,7 +75,7 @@ const siteCopy = {
       photoNote: "作品页先以相册入口呈现，进入摄影文件夹后再浏览完整图片集。",
     },
     photoAlbum: {
-      title: "像翻开一只摄影文件夹。",
+      title: "镜头记录过去，故事开启未来",
       copy: "这里先保留一组拍立得式入口。进入后，再以完整画廊浏览城市、建筑、自然与日常现场。",
       cta: "进入摄影文件夹",
     },
@@ -185,7 +185,7 @@ const siteCopy = {
       photoNote: "The work page keeps this as an album entry; the full image set lives inside the photography folder.",
     },
     photoAlbum: {
-      title: "Open it like a photography folder.",
+      title: "The lens records the past; stories open the future.",
       copy: "A Polaroid-style entry comes first. Inside, the full gallery gathers city, architecture, nature and everyday scenes.",
       cta: "Open Photography Folder",
     },
