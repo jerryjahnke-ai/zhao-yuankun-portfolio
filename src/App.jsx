@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
 
 const brandMark = `${import.meta.env.BASE_URL}brand-mark.webp`;
+const editorialVisuals = {
+  contact: `${import.meta.env.BASE_URL}editorial/contact-card.webp`,
+  hero: `${import.meta.env.BASE_URL}editorial/hero-quiet-lens.webp`,
+  strategy: `${import.meta.env.BASE_URL}editorial/strategy-still-life.webp`,
+};
 const languageStorageKey = "jerryzhao-language";
 
 const siteCopy = {
@@ -626,13 +631,16 @@ function LanguageToggle({ lang, onToggle, label }) {
   return (
     <button
       aria-label={label}
-      className="font-en inline-flex items-center gap-1 rounded-full border border-white/12 bg-white/[0.03] px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] text-muted transition hover:border-white/28 hover:bg-white/[0.06] hover:text-cream sm:px-3"
+      className="font-en hidden shrink-0 items-center gap-1 rounded-full border border-white/12 bg-white/[0.03] px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-muted transition hover:border-white/28 hover:bg-white/[0.06] hover:text-cream sm:inline-flex"
       onClick={onToggle}
       type="button"
     >
       <span className={lang === "zh" ? "text-cream" : "text-muted"}>中文</span>
       <span className="text-white/26">/</span>
-      <span className={lang === "en" ? "text-cream" : "text-muted"}>ENGLISH</span>
+      <span className={lang === "en" ? "text-cream" : "text-muted"}>
+        <span className="sm:hidden">EN</span>
+        <span className="hidden sm:inline">ENGLISH</span>
+      </span>
     </button>
   );
 }
@@ -640,14 +648,14 @@ function LanguageToggle({ lang, onToggle, label }) {
 function Header({ lang, onToggleLanguage, t }) {
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/72 backdrop-blur-2xl">
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-3 px-4 min-[380px]:px-5 sm:px-8">
+      <div className="mx-auto flex min-h-[96px] max-w-6xl flex-col items-start justify-center gap-2 px-4 py-3 sm:h-[72px] sm:min-h-0 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:px-8 sm:py-0">
         <Link aria-label={t.header.homeLabel} className="flex shrink-0 items-baseline gap-3 text-cream" to="/">
           <span className="font-display text-xl">{t.header.name}</span>
           <span className="font-en hidden text-[11px] tracking-[0.22em] text-muted sm:block">{t.header.subName}</span>
         </Link>
         <nav
           aria-label={t.header.navLabel}
-          className="flex items-center gap-2 text-[12px] min-[380px]:gap-4 min-[380px]:text-[13px] sm:gap-7 sm:text-sm"
+          className="flex w-full items-center justify-start gap-8 text-[12px] min-[380px]:gap-10 sm:w-auto sm:gap-7 sm:text-sm"
         >
           {navigation.map(({ key, to }) => (
             <NavLink
@@ -713,7 +721,7 @@ function Layout({ children, lang, onToggleLanguage, t }) {
     <>
       <ScrollToTop />
       <Header lang={lang} onToggleLanguage={onToggleLanguage} t={t} />
-      <main className="pt-[72px]">{children}</main>
+      <main className="pt-[96px] sm:pt-[72px]">{children}</main>
       <Footer lang={lang} t={t} />
     </>
   );
@@ -739,12 +747,12 @@ function ButtonLink({ children, secondary = false, to }) {
 
 function PageIntro({ eyebrow, title, copy }) {
   return (
-    <div className="max-w-3xl">
+    <div className="min-w-0 max-w-3xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h1 className="font-display balance mt-7 text-5xl font-normal leading-[1.12] tracking-[-0.055em] text-cream sm:text-7xl">
+      <h1 className="font-display balance mt-7 break-words text-5xl font-normal leading-[1.12] tracking-[-0.055em] text-cream sm:text-7xl">
         {title}
       </h1>
-      {copy && <p className="mt-8 max-w-2xl text-lg leading-9 text-muted">{copy}</p>}
+      {copy && <p className="mt-8 max-w-2xl break-words text-lg leading-9 text-muted">{copy}</p>}
     </div>
   );
 }
@@ -803,6 +811,15 @@ function HomePage({ lang, t }) {
             </div>
           </div>
           <div className="surface rounded-[2rem] p-7 text-white/68">
+            <div className="mb-7 overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.03]">
+              <img
+                alt=""
+                aria-hidden="true"
+                className="image-lift aspect-[16/10] w-full object-cover opacity-[0.86]"
+                loading="lazy"
+                src={editorialVisuals.hero}
+              />
+            </div>
             <Eyebrow light>{t.home.focusEyebrow}</Eyebrow>
             <p className="font-display mt-7 text-2xl leading-10 text-cream">
               <StackedLines lines={t.home.focusTitle} />
@@ -1060,12 +1077,21 @@ function WorkPage({ lang, t }) {
               {t.workPage.corporateTitle}
             </h2>
           </div>
-          <div>
-            <h3 className="font-display max-w-2xl text-3xl font-normal leading-snug text-cream sm:text-4xl">
+          <div className="min-w-0">
+            <h3 className="font-display max-w-2xl break-words text-3xl font-normal leading-snug text-cream sm:text-4xl">
               {t.workPage.corporateHeading}
             </h3>
-            <p className="mt-7 max-w-2xl text-lg leading-9 text-muted">{t.workPage.corporateCopy}</p>
-            <div className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <p className="mt-7 max-w-2xl break-words text-lg leading-9 text-muted">{t.workPage.corporateCopy}</p>
+            <div className="mt-10 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.03]">
+              <img
+                alt=""
+                aria-hidden="true"
+                className="image-lift aspect-[16/7] w-full object-cover opacity-[0.82]"
+                loading="lazy"
+                src={editorialVisuals.strategy}
+              />
+            </div>
+            <div className="mt-10 grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:grid-cols-4">
               {practiceMetrics.map((metric) => (
                 <div className={`${metric.style} rounded-[1.25rem] px-5 py-7`} key={text(metric.label, lang)}>
                   <p className="font-display text-3xl text-navy">{text(metric.value, lang)}</p>
@@ -1246,6 +1272,15 @@ function ContactPage({ t }) {
           </a>
         </div>
         <aside className="surface rounded-[1.75rem] p-7 lg:mt-16">
+          <div className="mb-7 overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.03]">
+            <img
+              alt=""
+              aria-hidden="true"
+              className="image-lift aspect-[4/3] w-full object-cover opacity-[0.84]"
+              loading="lazy"
+              src={editorialVisuals.contact}
+            />
+          </div>
           <Eyebrow>{t.contactPage.findMe}</Eyebrow>
           <p className="font-display mt-7 text-3xl text-cream">{t.contactPage.account}</p>
           <p className="mt-3 text-sm leading-7 text-muted">{t.contactPage.accountNote}</p>
