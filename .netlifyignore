@@ -1,0 +1,9 @@
+.git
+.github
+.vercel
+node_modules
+dist
+.vite
+*.log
+deploy-*.zip
+render_topic_scripts_doc
